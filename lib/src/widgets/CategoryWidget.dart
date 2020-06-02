@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pizon_customer/screens/ProductListScreen.dart';
 
 class CategoryWidget extends StatelessWidget {
   final String _id;
@@ -7,18 +8,31 @@ class CategoryWidget extends StatelessWidget {
 
   CategoryWidget(this._id, this.category, this.catImageUri);
 
-  factory CategoryWidget.fromJSON (Map<String, dynamic> json) => CategoryWidget(json['_id'], json['category'], json['catImageUri']);
+  factory CategoryWidget.fromJSON(Map<String, dynamic> json) =>
+      CategoryWidget(json['_id'], json['category'], json['catImageUri']);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => ProductList()));
+      },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Image.network(this.catImageUri, height: 80, width: 80,),
-          Text(this.category, style: TextStyle(fontWeight: FontWeight.bold),softWrap: true, textAlign: TextAlign.center,),
+          Image.network(
+            this.catImageUri,
+            height: 80,
+            width: 80,
+          ),
+          Text(
+            this.category,
+            style: TextStyle(fontWeight: FontWeight.bold),
+            softWrap: true,
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
