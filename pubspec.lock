@@ -93,7 +93,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "3ce152ed652ab9a4ee871217ac66b519b750466f"
+      resolved-ref: "7995180d96dd1a2d4fac6513e4f1a13512e834d4"
       url: "https://github.com/meetketanmehta/flutter_user_auth.git"
     source: git
     version: "0.0.1"

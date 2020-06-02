@@ -15,9 +15,7 @@ class HomeScreen extends StatelessWidget {
         title: AddressWidget(),
       ),
       bottomNavigationBar: BottomNavigationBarWidget(currentIndex: 0,),
-      body: SingleChildScrollView(
-        child: Categories(),
-      ),
+      body: Categories(),
     );
   }
 }

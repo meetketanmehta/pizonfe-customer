@@ -4,6 +4,7 @@ import 'package:pizon_customer/res/values/EndPoints.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shimmer/shimmer.dart';
+import 'package:toast/toast.dart';
 
 class Categories extends StatefulWidget {
   @override
@@ -22,12 +23,17 @@ class _CategoriesState extends State<Categories> {
   void fetchData() async {
     var responseData = await http.get(endPoint);
     var responseBody = jsonDecode(responseData.body);
-    setState(() {
-      for (Map category in responseBody) {
-        categories.add(CategoryWidget.fromJSON(category));
-      }
-      loading = false;
-    });
+    if(responseData.statusCode == 200) {
+      setState(() {
+        for (Map category in responseBody) {
+          categories.add(CategoryWidget.fromJSON(category));
+        }
+        loading = false;
+      });
+    }
+    else {
+      Toast.show(responseBody.message, context);
+    }
   }
 
   Widget _shimmerEffect(int count) {

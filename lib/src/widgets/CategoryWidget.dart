@@ -27,11 +27,14 @@ class CategoryWidget extends StatelessWidget {
             height: 80,
             width: 80,
           ),
-          Text(
-            this.category,
-            style: TextStyle(fontWeight: FontWeight.bold),
-            softWrap: true,
-            textAlign: TextAlign.center,
+          Container(
+            height: 32,
+            child: Text(
+              this.category,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              softWrap: true,
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),
