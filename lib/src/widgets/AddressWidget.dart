@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:pizon_customer/screens/UpdateLocationScreen.dart';
 
 class AddressWidget extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (_) => UpdateLocationScreen()));
       },
       child: Container(
         width: MediaQuery.of(context).size.width * 0.6,
