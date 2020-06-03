@@ -22,10 +22,11 @@ class CategoryWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Image.network(
-            this.catImageUri,
-            height: 80,
-            width: 80,
+          Expanded(
+            child: Image.network(
+              this.catImageUri,
+              fit: BoxFit.contain,
+            ),
           ),
           Container(
             height: 32,
