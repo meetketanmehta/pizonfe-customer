@@ -13,6 +13,10 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="pizon_customer"
         android:icon="@mipmap/ic_launcher">
+        
+        <!-- TODO: Add your API key here -->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+                   android:value="AIzaSyBxYx82dhlW-mPA7g9FC8WwO5w_NxCjRKA"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

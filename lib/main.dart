@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'screens/HomeScreen.dart';
-import 'src/widgets/LogoWidget.dart';
 import 'package:flutter_user_auth/flutter_user_auth.dart';
+
 import 'res/values/EndPoints.dart';
 import 'res/values/Strings.dart';
+import 'screens/HomeScreen.dart';
+import 'src/widgets/LogoWidget.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,6 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool _loading = true;
+  bool _fetchingAddress = true;
 
   _MyAppState() {
     _initializeUserAuth();
