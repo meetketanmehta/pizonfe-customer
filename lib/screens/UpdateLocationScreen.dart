@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_user_auth/flutter_user_auth.dart';
@@ -18,8 +19,9 @@ class _UpdateLocationScreenState extends State<UpdateLocationScreen> {
 
   void fetchData() async {
     var token = await UserAuth.getAuthToken();
+    print(token);
     var responseData = await http
-        .get(EndPoint, headers: {"authorizationToken": token.toString()});
+        .get(EndPoint, headers: {"authorizationToken": token});
 
     var responseBody = jsonDecode(responseData.body);
     print("\n\n" + responseBody);

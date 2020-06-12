@@ -12,20 +12,17 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   Completer<GoogleMapController> _controller = Completer();
 
-  static LatLng _center = LatLng(37.42796133580664, -122.085749655962);
+  static LatLng _center;
 
   @override
   void initState() {
-    _updateLocation();
     super.initState();
   }
 
-  void _updateLocation() async {
-    var position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    setState(() {
-      _center = LatLng(position.latitude, position.longitude);
-    });
+  Future<Position> _updateLocation() async {
+    return Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest
+    );
   }
 
   void _goToCurrentLocation() async {
@@ -40,6 +37,20 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _updateLocation(),
+      builder: (BuildContext context, AsyncSnapshot<Position> snap) {
+        if (snap.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          _center = LatLng(snap.data.latitude, snap.data.longitude);
+          return mapWidget(context, _center);
+        }
+      },
+    );
+  }
+
+  Widget mapWidget(BuildContext context, LatLng latLng) {
     return MaterialApp(
         theme: ThemeData(primaryColor: Color(0xfff79c4f)),
         home: Scaffold(
@@ -60,28 +71,30 @@ class _MapScreenState extends State<MapScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height * .75,
+                height: MediaQuery.of(context).size.height * .78,
                 width: MediaQuery.of(context).size.width,
                 child: GoogleMap(
                   zoomControlsEnabled: false,
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(
-                    target: _center,
+                    target: latLng,
                     zoom: 15.0,
                   ),
                 ),
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * .1,
-                width: MediaQuery.of(context).size.width,
-              )
+              _registerButton(context)
             ],
           ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
-            child: Icon(Icons.my_location),
-            onPressed: _goToCurrentLocation,
+          floatingActionButton: Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.height * .1),
+            child: FloatingActionButton(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              child: Icon(Icons.my_location),
+              onPressed: _goToCurrentLocation,
+              mini: true,
+            ),
           ),
         ));
   }
@@ -90,11 +103,12 @@ class _MapScreenState extends State<MapScreen> {
 Widget _registerButton(BuildContext context) {
   return InkWell(
     child: Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 13),
+      width: MediaQuery.of(context).size.width * .8,
+      margin: EdgeInsets.only(top: 10),
+      padding: EdgeInsets.symmetric(vertical: 8),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
         border: Border.all(color: Color(0xfff7892b), width: 2),
       ),
       child: Text(
