@@ -7,27 +7,31 @@ class Address {
   String landmark;
   var coordinates = [];
 
-  Address({
-    this.addName,
-    this.completeAdd,
-    this.addType,
-    this.landmark,
-    this.coordinates
-  });
+  Address(
+      {this.addName,
+      this.completeAdd,
+      this.addType,
+      this.landmark,
+      this.coordinates});
 
-  Address.fromJson(Map<String, dynamic> json){
-    addName = json['addName'];
-    completeAdd = json['completeAdd'];
-    addType = json['addType'];
-    landmark = json['landmark'];
+  Address.fromJson(Map<dynamic, dynamic> json) {
+    this.addName = json['addName'];
+    this.completeAdd = json['completeAdd'];
+    this.addType = json['addType'];
+    this.landmark = json['landmark'];
     coordinates = json['coordinates'];
   }
 
-  Address.fromPlacemark(Placemark placemark){
-    addName= placemark.name;
-    completeAdd = placemark.name + placemark.locality +placemark.administrativeArea + placemark.country +"," +placemark.postalCode;
+  Address.fromPlacemark(Placemark placemark) {
+    this.addName = placemark.name;
+    this.coordinates.add(placemark.position.longitude);
+    this.coordinates.add(placemark.position.latitude);
+
+    this.completeAdd = placemark.name +
+        placemark.locality +
+        placemark.administrativeArea +
+        placemark.country +
+        "," +
+        placemark.postalCode;
   }
 }
-
-
-

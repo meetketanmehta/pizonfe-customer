@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pizon_customer/models/Address.dart';
 
 class MapScreen extends StatefulWidget {
   @override
@@ -11,8 +12,9 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   Completer<GoogleMapController> _controller = Completer();
-
+  Set<Marker> _markers ={};
   static LatLng _center;
+  Address address_camera;//representing camera position
 
   @override
   void initState() {
@@ -21,8 +23,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Future<Position> _updateLocation() async {
     return Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest
-    );
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
   }
 
   void _goToCurrentLocation() async {
@@ -35,6 +36,14 @@ class _MapScreenState extends State<MapScreen> {
     _controller.complete(controller);
   }
 
+  void _onCameraMove(CameraPosition position) async {
+    List<Placemark> placemark = await Geolocator().placemarkFromCoordinates(position.target.latitude, position.target.longitude);
+    address_camera = Address.fromPlacemark(placemark[0]);
+  }
+
+  void _onCameraIdle(){
+    print("\n\n" +address_camera.completeAdd+"\n\n");
+  }
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -44,6 +53,7 @@ class _MapScreenState extends State<MapScreen> {
           return Center(child: CircularProgressIndicator());
         } else {
           _center = LatLng(snap.data.latitude, snap.data.longitude);
+          _markers.add(Marker(markerId: MarkerId("CurrentLocation"), position: _center, ));
           return mapWidget(context, _center);
         }
       },
@@ -74,6 +84,11 @@ class _MapScreenState extends State<MapScreen> {
                 height: MediaQuery.of(context).size.height * .78,
                 width: MediaQuery.of(context).size.width,
                 child: GoogleMap(
+                  onCameraMove: (CameraPosition position){
+                    _onCameraMove(position);
+                  },
+                  onCameraIdle: _onCameraIdle,
+                  markers: _markers,
                   zoomControlsEnabled: false,
                   onMapCreated: _onMapCreated,
                   initialCameraPosition: CameraPosition(

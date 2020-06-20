@@ -23,7 +23,7 @@ class ProductCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Image.network(
-                      "https://www.bigbasket.com/media/uploads/p/l/10000404_13-bb-royal-raw-rice-sona-masoori.jpg",
+                      product.imageUri,
                       height: 90,
                       width: 90,
                     ),
@@ -40,10 +40,11 @@ class ProductCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "BB ROYAL",
+                        product.title,
                         style: TextStyle(color: Colors.grey),
+                        maxLines: 1,
                       ),
-                      Text("Sona Masoori Raw Rice"),
+                      Text(product.description != null ? product.description : product.subCategory),
                     ],
                   ),
                   Container(

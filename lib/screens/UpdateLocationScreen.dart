@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:pizon_customer/models/Address.dart';
 import 'package:pizon_customer/res/values/EndPoints.dart';
 import 'package:pizon_customer/screens/MapScreen.dart';
+import 'package:shimmer/shimmer.dart';
 
 class UpdateLocationScreen extends StatefulWidget {
   @override
@@ -14,22 +15,33 @@ class UpdateLocationScreen extends StatefulWidget {
 }
 
 class _UpdateLocationScreenState extends State<UpdateLocationScreen> {
-  List<Address> savedAddresses;
-  final String EndPoint = EndPoints.addresses;
+  List<Address> savedAddresses = List<Address>();
+  bool loading = true;
+  final String endPoint = EndPoints.addresses;
 
   void fetchData() async {
     var token = await UserAuth.getAuthToken();
     print(token);
-    var responseData = await http
-        .get(EndPoint, headers: {"authorizationToken": token});
+    var responseData =
+        await http.get(endPoint, headers: {"authorizationToken": token});
 
     var responseBody = jsonDecode(responseData.body);
-    print("\n\n" + responseBody);
 
-//    setState(() {
-//      savedAddresses = (responseBody as List).map((e) => Address.fromJson(e));
-////      print(savedAddresses.toString());
-//    });
+    if (responseData.statusCode == 200) {
+      setState(() {
+        print(responseData.statusCode);
+        for (Map category in responseBody) {
+          savedAddresses.add(Address.fromJson(category));
+//          print(savedAddresses.last.addName);
+        }
+        loading = false;
+      });
+      return;
+    }
+
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -137,113 +149,89 @@ class _UpdateLocationScreenState extends State<UpdateLocationScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      child: Text("Saved Addresses",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15))),
-                  Container(
                     margin: EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                            margin: EdgeInsets.only(right: 5),
-                            child: Icon(Icons.home, color: Color(0xfff79c4f))),
-                        Container(
-                          width: width * .80,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.only(top: 4, bottom: 4),
-                                child: Text(
-                                  "Home",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Text(
-                                "2110 N. King St.Suite 1Honolulu, Hawaii 96819Phone: (808) 832-6468Fax: (808) 832-6465",
-                                softWrap: true,
-                                maxLines: 3,
-                                overflow: TextOverflow.clip,
-                                textAlign: TextAlign.left,
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                    child: loading ? Text(""): Text(
+                      "Saved Addresses",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    )
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                            margin: EdgeInsets.only(right: 5),
-                            child: Icon(Icons.home, color: Color(0xfff79c4f))),
-                        Container(
-                          width: width * .80,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.only(top: 4, bottom: 4),
-                                child: Text(
-                                  "Home",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
+                    child: new ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: loading ? 2 : savedAddresses.length,
+                        itemBuilder: (BuildContext context, int idx) {
+                          if (loading == false) {
+                            Address curr = savedAddresses[idx];
+                            return Container(
+                              margin: EdgeInsets.only(bottom: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                      margin: EdgeInsets.only(right: 5),
+                                      child: myIcon(curr.addType)),
+                                  Container(
+                                    width: width * .80,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                          padding: EdgeInsets.only(
+                                              top: 4, bottom: 4),
+                                          child: Text(
+                                            curr.addType,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        Text(
+                                          curr.completeAdd,
+                                          softWrap: true,
+                                          maxLines: 3,
+                                          overflow: TextOverflow.clip,
+                                          textAlign: TextAlign.left,
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
                               ),
-                              Text(
-                                "2110 N. King St.Suite 1Honolulu, Hawaii 96819Phone: (808) 832-6468Fax: (808) 832-6465",
-                                softWrap: true,
-                                maxLines: 3,
-                                overflow: TextOverflow.clip,
-                                textAlign: TextAlign.left,
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                            margin: EdgeInsets.only(right: 5),
-                            child: Icon(Icons.home, color: Color(0xfff79c4f))),
-                        Container(
-                          width: width * .80,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                padding: EdgeInsets.only(top: 4, bottom: 4),
-                                child: Text(
-                                  "Home",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Text(
-                                "2110 N. King St.Suite 1Honolulu, Hawaii 96819Phone: (808) 832-6468Fax: (808) 832-6465",
-                                softWrap: true,
-                                maxLines: 3,
-                                overflow: TextOverflow.clip,
-                                textAlign: TextAlign.left,
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                            );
+                          } else {
+                            return _shimmerEffect(0);
+                          }
+                        }),
                   )
                 ],
               ))
         ],
       ),
+    );
+  }
+
+  Widget myIcon(String type) {
+    if (type == "Office") {
+      return Icon(Icons.work, color: Color(0xfff79c4f));
+    } else if (type == "Home") {
+      return Icon(Icons.home, color: Color(0xfff79c4f));
+    }
+    return Icon(Icons.location_on, color: Color(0xfff79c4f));
+  }
+
+  Widget _shimmerEffect(int count) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * .85,
+      height: 100.0,
+      child: Shimmer.fromColors(
+          baseColor: Colors.grey[300],
+          highlightColor: Colors.grey[100],
+          child: Container(
+            margin: EdgeInsets.all(22.0),
+            color: Colors.white,
+          )),
     );
   }
 }
