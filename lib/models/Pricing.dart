@@ -1,7 +1,8 @@
 class Pricing {
   double price;
   String storeId;
-  List options = [];
+  String options;
+  String storeName;
 
   Pricing({this.price, this.storeId, this.options});
 
@@ -9,5 +10,6 @@ class Pricing {
     this.price = json["price"];
     this.storeId = json["storeId"];
     this.options = json["options"];
+    this.storeName = json["storeName"];
   }
 }
