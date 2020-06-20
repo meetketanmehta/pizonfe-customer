@@ -19,20 +19,22 @@ class _ProductListState extends State<ProductList> {
   List<Product> productsList = List<Product>();
   final String endPoint = EndPoints.products;
   bool loading = true;
+  int count = 0;
 
   void fetchData() async {
-    Address address = await AddressState.getCurrentAddress();
+    // Address address = await AddressState.getCurrentAddress();
 
     String paramQuery = "?latitude=";
-    paramQuery += address.coordinates[0].toString();
-    paramQuery += "&longitude=";
-    paramQuery += address.coordinates[1].toString();
+    // paramQuery += address.coordinates[0].toString();
+    // paramQuery += "&longitude=";
+    // paramQuery += address.coordinates[1].toString();
 
     // TODO remove this line
     paramQuery = "?latitude=23.024981&longitude=72.5049347";
-
+    print("Reached here");
     var responseData = await http.get(endPoint + paramQuery);
     var responseBody = jsonDecode(responseData.body);
+    count = responseBody.length;
     if (responseData.statusCode == 200) {
       setState(() {
         for (Map productItem in responseBody) {
@@ -49,8 +51,8 @@ class _ProductListState extends State<ProductList> {
 
   @override
   void initState() {
-    fetchData();
     super.initState();
+    fetchData();
   }
 
   @override
@@ -77,9 +79,11 @@ class _ProductListState extends State<ProductList> {
           ),
         ),
         body: ListView.builder(
-          itemCount: 5,
+          itemCount: count>0?count:5,
             itemBuilder: (BuildContext context, int id){
+              if (productsList.length > 0)
               return ProductCard(product: productsList[id]);
+              else return _shimmerEffect(5);
             }
         ),
       );
