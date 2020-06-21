@@ -10,11 +10,13 @@ class SearchWidget extends StatelessWidget {
             decoration: InputDecoration(
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(4)),
-                borderSide: BorderSide(width: 1, color: Theme.of(context).primaryColorLight),
+                borderSide: BorderSide(
+                    width: 1, color: Theme.of(context).primaryColorLight),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(4)),
-                borderSide: BorderSide(width: 1, color: Theme.of(context).scaffoldBackgroundColor),
+                borderSide: BorderSide(
+                    width: 1, color: Theme.of(context).primaryColorDark),
               ),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4)),

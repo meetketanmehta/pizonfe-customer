@@ -23,15 +23,14 @@ class _CategoriesState extends State<Categories> {
   void fetchData() async {
     var responseData = await http.get(endPoint);
     var responseBody = jsonDecode(responseData.body);
-    if(responseData.statusCode == 200) {
+    if (responseData.statusCode == 200) {
       setState(() {
         for (Map category in responseBody) {
           categories.add(CategoryWidget.fromJSON(category));
         }
         loading = false;
       });
-    }
-    else {
+    } else {
       Toast.show(responseBody.message, context);
     }
   }
@@ -65,7 +64,7 @@ class _CategoriesState extends State<Categories> {
       child: loading
           ? _shimmerEffect(7)
           : GridView.count(
-        shrinkWrap: true,
+              shrinkWrap: true,
               mainAxisSpacing: 8.0,
               crossAxisSpacing: 8.0,
               crossAxisCount: 3,

@@ -63,17 +63,20 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: Colors.black,
           accentColor: Colors.white,
           primaryColorLight: Colors.black,
-          scaffoldBackgroundColor: Colors.black54),
+          primaryColorDark: Colors.black54),
       darkTheme: ThemeData(
         // final ThemeData base = ThemeData();
+        primaryColor: Colors.black,
         brightness: Brightness.dark,
         primarySwatch: Colors.orange,
         backgroundColor: Colors.white,
         // primaryColor: Color(0xffd4af37),
         accentColor: Colors.black12,
         primaryColorLight: Colors.white,
+        primaryColorDark: Colors.white54
 
-        scaffoldBackgroundColor: Colors.white54,
+
+        // scaffoldBackgroundColor: Colors.white54,
         // secondaryHeaderColor: Colors.white
         // backgroundColor: Colors.blueGrey
       ),

@@ -44,7 +44,9 @@ class ProductCard extends StatelessWidget {
                         style: TextStyle(color: Colors.grey),
                         maxLines: 1,
                       ),
-                      Text(product.description != null ? product.description : product.subCategory),
+                      Text(product.description != null
+                          ? product.description
+                          : product.subCategory),
                     ],
                   ),
                   Container(
@@ -80,7 +82,6 @@ class ProductCard extends StatelessWidget {
                       InkWell(
                         child: Text("ADD"),
                         borderRadius: BorderRadius.all(Radius.circular(4)),
-
                         onTap: null,
                       )
                     ],

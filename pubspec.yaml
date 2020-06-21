@@ -26,6 +26,7 @@ dependencies:
   geolocator: ^5.3.1
   google_maps_flutter: ^0.5.28+1
   liquid_pull_to_refresh: ^2.0.0
+  shared_preferences: ^0.5.7+3
 
 
   # The following adds the Cupertino Icons font to your application.

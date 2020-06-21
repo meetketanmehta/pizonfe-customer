@@ -7,6 +7,7 @@ import 'package:pizon_customer/models/Address.dart';
 import 'package:pizon_customer/models/Product.dart';
 import 'package:pizon_customer/res/values/EndPoints.dart';
 import 'package:pizon_customer/src/widgets/ProductCard.dart';
+import 'package:pizon_customer/src/widgets/SearchWidget.dart';
 import 'package:pizon_customer/states/AddressState.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
@@ -25,19 +26,17 @@ class _ProductListState extends State<ProductList> {
   bool loading = true;
   int count = 0;
 
-  
-
   @override
   void initState() {
     this.fetchData(page);
     super.initState();
     _sc.addListener(() {
-      if (_sc.position.pixels ==
-          _sc.position.maxScrollExtent) {
+      if (_sc.position.pixels == _sc.position.maxScrollExtent) {
         fetchData(page);
       }
     });
   }
+
   @override
   void dispose() {
     _sc.dispose();
@@ -55,11 +54,12 @@ class _ProductListState extends State<ProductList> {
     // TODO remove this line
     paramQuery = "&latitude=23.024981&longitude=72.5049347";
     print("Reached here");
-    var responseData = await http.get(endPoint + "?page="+index.toString()+"&results=20"+paramQuery);
+    var responseData = await http.get(
+        endPoint + "?page=" + index.toString() + "&results=20" + paramQuery);
     print(responseData);
     var responseBody = jsonDecode(responseData.body);
     List<Product> tList = new List<Product>();
-    count = responseBody.length+1;
+    count = responseBody.length + 1;
     if (responseData.statusCode == 200) {
       setState(() {
         for (Map productItem in responseBody) {
@@ -76,51 +76,64 @@ class _ProductListState extends State<ProductList> {
       print("\n\nError");
     }
   }
+
   @override
   Widget build(BuildContext context) {
     // ignore: unrelated_type_equality_checks
     if (loading == 0) {
       return _shimmerEffect(0);
     } else {
-      return Scaffold(
-        appBar: AppBar(
-          leading: InkWell(
-            child: Icon(
-              Icons.arrow_back,
-              color: Color(0xfff79c4f),
-            ),
-            onTap: Navigator.of(context).pop,
-          ),
-          title: Container(
-            padding: EdgeInsets.symmetric(horizontal: 15),
-            child: Text(
-              "Order Groceries",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-        body: LiquidPullToRefresh(
-        color: Theme.of(context).accentColor,
-        backgroundColor: Theme.of(context).backgroundColor,
-        showChildOpacityTransition: false,
-        onRefresh: () => fetchData(page),
-        child:ListView.builder(
-          itemCount: count>0?count:5,
-            itemBuilder: (BuildContext context, int id){
-              if (id == productsList.length) {
-          return _buildProgressIndicator();
-        }
-        else{
-              if (productsList.length > 0)
-              return ProductCard(product: productsList[id]);
-              else return _shimmerEffect(5);
-            }},
-            controller: _sc,
-        ),
-      ));
+      return Container(
+          child: SafeArea(
+              top: false,
+              bottom: false,
+              child: Scaffold(
+                  appBar: AppBar(
+                    leading: InkWell(
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Color(0xfff79c4f),
+                      ),
+                      onTap: Navigator.of(context).pop,
+                    ),
+                    title: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Text(
+                        "Order Groceries",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  body: Column(children: <Widget>[
+                    SearchWidget(),
+                    Expanded(
+                        flex: 1,
+                        child: LiquidPullToRefresh(
+                          color: Theme.of(context).accentColor,
+                          backgroundColor: Theme.of(context).backgroundColor,
+                          showChildOpacityTransition: false,
+                          onRefresh: () => fetchData(page),
+                          child: ListView.builder(
+                            itemCount: count > 0 ? count : 5,
+                            itemBuilder: (BuildContext context, int id) {
+                              if (id == productsList.length) {
+                                return _buildProgressIndicator();
+                              } else {
+                                if (productsList.length > 0)
+                                  return ProductCard(product: productsList[id]);
+                                else
+                                  return _shimmerEffect(5);
+                              }
+                            },
+                            controller: _sc,
+                          ),
+                        ))
+                  ]))));
     }
   }
-Widget _buildProgressIndicator() {
+
+  Widget _buildProgressIndicator() {
     return new Padding(
       padding: const EdgeInsets.all(8.0),
       child: new Center(
@@ -131,6 +144,7 @@ Widget _buildProgressIndicator() {
       ),
     );
   }
+
   Widget _shimmerEffect(int count) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * .85,
@@ -139,9 +153,8 @@ Widget _buildProgressIndicator() {
           baseColor: Colors.grey[300],
           highlightColor: Colors.grey[100],
           child: Container(
-            margin: EdgeInsets.all(22.0),
-            color: Theme.of(context).accentColor
-          )),
+              margin: EdgeInsets.all(22.0),
+              color: Theme.of(context).accentColor)),
     );
   }
 }

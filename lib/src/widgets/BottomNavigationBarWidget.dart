@@ -44,25 +44,26 @@ import 'package:pizon_customer/screens/HomeScreen.dart';
 //  }
 //}
 
-
 class BottomNavigationBarWidget extends StatelessWidget {
   final int currentIndex;
 
   BottomNavigationBarWidget({this.currentIndex});
 
   void _onSelection(int index, BuildContext context) {
-    if(index == currentIndex)
-      return;
-    switch(index) {
-      case 0: {
-        Navigator.pop(context);
-        //Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-      }
-      break;
-      case 3: {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => AccountScreen()));
-      }
-      break;
+    if (index == currentIndex) return;
+    switch (index) {
+      case 0:
+        {
+          Navigator.pop(context);
+          //Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        }
+        break;
+      case 3:
+        {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AccountScreen()));
+        }
+        break;
     }
   }
 
@@ -74,8 +75,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
         BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
         BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart), title: Text('Cart')),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.list), title: Text('Orders')),
+        BottomNavigationBarItem(icon: Icon(Icons.list), title: Text('Orders')),
         BottomNavigationBarItem(
             icon: Icon(Icons.account_circle), title: Text('Account'))
       ],
