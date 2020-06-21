@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pizon_customer/models/Address.dart';
 import 'package:pizon_customer/models/Product.dart';
+import 'package:pizon_customer/screens/ProductDetail.dart';
 import 'package:pizon_customer/res/values/EndPoints.dart';
 import 'package:pizon_customer/src/widgets/ProductCard.dart';
 import 'package:pizon_customer/src/widgets/SearchWidget.dart';
@@ -43,6 +44,11 @@ class _ProductListState extends State<ProductList> {
     super.dispose();
   }
 
+  void _navigate(BuildContext context, Hero hero) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ProductDetail(hero)));
+  }
+
   Future<void> fetchData(int index) async {
     // Address address = await AddressState.getCurrentAddress();
 
@@ -56,8 +62,9 @@ class _ProductListState extends State<ProductList> {
     print("Reached here");
     var responseData = await http.get(
         endPoint + "?page=" + index.toString() + "&results=20" + paramQuery);
-    print(responseData);
+
     var responseBody = jsonDecode(responseData.body);
+    print(responseBody);
     List<Product> tList = new List<Product>();
     count = responseBody.length + 1;
     if (responseData.statusCode == 200) {
@@ -120,9 +127,21 @@ class _ProductListState extends State<ProductList> {
                               if (id == productsList.length) {
                                 return _buildProgressIndicator();
                               } else {
-                                if (productsList.length > 0)
-                                  return ProductCard(product: productsList[id]);
-                                else
+                                if (productsList.length > 0) {
+                                  return GestureDetector(
+                                      onTap: () => this._navigate(
+                                          context,
+                                          Hero(
+                                            tag: productsList[id],
+                                            child: Image.network(
+                                              productsList[id].imageUri,
+                                            ),
+                                          )),
+                                      child: Hero(
+                                          tag: productsList[id],
+                                          child: ProductCard(
+                                              product: productsList[id])));
+                                } else
                                   return _shimmerEffect(5);
                               }
                             },
@@ -146,6 +165,7 @@ class _ProductListState extends State<ProductList> {
   }
 
   Widget _shimmerEffect(int count) {
+    print("Shimmering");
     return SizedBox(
       width: MediaQuery.of(context).size.width * .85,
       height: 100.0,
