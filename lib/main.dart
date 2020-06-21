@@ -11,6 +11,14 @@ void main() {
   runApp(MyApp());
 }
 
+const kBlackHalf = const Color(0xFF212121);
+const kBlackLight = const Color(0xFF484848);
+const kBlack = const Color(0xFF000000);
+const kYellow = const Color(0xFFffd600);
+const kYellowLight = const Color(0xFFffff52);
+const kYellowDark = const Color(0xFFc7a500);
+const kWhite = Colors.white;
+
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -51,18 +59,22 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Pizon',
       theme: ThemeData(
-        primaryColor: Colors.white,
-        backgroundColor: Colors.black, 
-        accentColor: Colors.white, 
-        primaryColorLight: Colors.black
-      ),
+          primaryColor: Colors.white,
+          backgroundColor: Colors.black,
+          accentColor: Colors.white,
+          primaryColorLight: Colors.black,
+          scaffoldBackgroundColor: Colors.black54),
       darkTheme: ThemeData(
+        // final ThemeData base = ThemeData();
         brightness: Brightness.dark,
         primarySwatch: Colors.orange,
         backgroundColor: Colors.white,
         // primaryColor: Color(0xffd4af37),
         accentColor: Colors.black12,
-        primaryColorLight: Colors.black
+        primaryColorLight: Colors.white,
+
+        scaffoldBackgroundColor: Colors.white54,
+        // secondaryHeaderColor: Colors.white
         // backgroundColor: Colors.blueGrey
       ),
       //debugShowCheckedModeBanner: false,
