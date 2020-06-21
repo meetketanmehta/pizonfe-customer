@@ -8,6 +8,7 @@ import 'package:pizon_customer/models/Product.dart';
 import 'package:pizon_customer/res/values/EndPoints.dart';
 import 'package:pizon_customer/src/widgets/ProductCard.dart';
 import 'package:pizon_customer/states/AddressState.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProductList extends StatefulWidget {
@@ -16,12 +17,34 @@ class ProductList extends StatefulWidget {
 }
 
 class _ProductListState extends State<ProductList> {
+  static int page = 0;
+  ScrollController _sc = new ScrollController();
+  bool isLoading = false;
   List<Product> productsList = List<Product>();
   final String endPoint = EndPoints.products;
   bool loading = true;
   int count = 0;
 
-  void fetchData() async {
+  
+
+  @override
+  void initState() {
+    this.fetchData(page);
+    super.initState();
+    _sc.addListener(() {
+      if (_sc.position.pixels ==
+          _sc.position.maxScrollExtent) {
+        fetchData(page);
+      }
+    });
+  }
+  @override
+  void dispose() {
+    _sc.dispose();
+    super.dispose();
+  }
+
+  Future<void> fetchData(int index) async {
     // Address address = await AddressState.getCurrentAddress();
 
     String paramQuery = "?latitude=";
@@ -30,31 +53,29 @@ class _ProductListState extends State<ProductList> {
     // paramQuery += address.coordinates[1].toString();
 
     // TODO remove this line
-    paramQuery = "?latitude=23.024981&longitude=72.5049347";
+    paramQuery = "&latitude=23.024981&longitude=72.5049347";
     print("Reached here");
-    var responseData = await http.get(endPoint + paramQuery);
+    var responseData = await http.get(endPoint + "?page="+index.toString()+"&results=20"+paramQuery);
+    print(responseData);
     var responseBody = jsonDecode(responseData.body);
-    count = responseBody.length;
+    List<Product> tList = new List<Product>();
+    count = responseBody.length+1;
     if (responseData.statusCode == 200) {
       setState(() {
         for (Map productItem in responseBody) {
-          productsList.add(Product.fromJson(productItem));
+          tList.add(Product.fromJson(productItem));
 //          print("\n\n\n" + productsList.last.title);
         }
+        // loading = false;
         loading = false;
+        productsList.addAll(tList);
+        page++;
       });
     } else {
       // TODO handle error
       print("\n\nError");
     }
   }
-
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
-
   @override
   Widget build(BuildContext context) {
     // ignore: unrelated_type_equality_checks
@@ -78,18 +99,36 @@ class _ProductListState extends State<ProductList> {
             ),
           ),
         ),
-        body: ListView.builder(
+        body: LiquidPullToRefresh(
+        showChildOpacityTransition: false,
+        onRefresh: () => fetchData(page),
+        child:ListView.builder(
           itemCount: count>0?count:5,
             itemBuilder: (BuildContext context, int id){
+              if (id == productsList.length) {
+          return _buildProgressIndicator();
+        }
+        else{
               if (productsList.length > 0)
               return ProductCard(product: productsList[id]);
               else return _shimmerEffect(5);
-            }
+            }},
+            controller: _sc,
         ),
-      );
+      ));
     }
   }
-
+Widget _buildProgressIndicator() {
+    return new Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Center(
+        child: new Opacity(
+          opacity: isLoading ? 1.0 : 00,
+          child: new CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
   Widget _shimmerEffect(int count) {
     return SizedBox(
       width: MediaQuery.of(context).size.width * .85,
