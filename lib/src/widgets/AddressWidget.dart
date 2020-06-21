@@ -5,7 +5,6 @@ import 'package:pizon_customer/models/Address.dart';
 import 'package:pizon_customer/screens/UpdateLocationScreen.dart';
 import 'package:pizon_customer/states/AddressState.dart';
 
-
 class AddressWidget extends StatefulWidget {
   @override
   _AddressWidgetState createState() => _AddressWidgetState();
