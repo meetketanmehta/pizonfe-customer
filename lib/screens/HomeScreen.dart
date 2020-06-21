@@ -9,8 +9,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint("User Login Status : " + UserAuth.isLogged.toString());
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).accentColor,
         elevation: 1,
         title: AddressWidget(),
       ),

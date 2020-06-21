@@ -52,6 +52,18 @@ class _MyAppState extends State<MyApp> {
       title: 'Pizon',
       theme: ThemeData(
         primaryColor: Colors.white,
+        backgroundColor: Colors.black, 
+        accentColor: Colors.white, 
+        primaryColorLight: Colors.black
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.orange,
+        backgroundColor: Colors.white,
+        // primaryColor: Color(0xffd4af37),
+        accentColor: Colors.black12,
+        primaryColorLight: Colors.black
+        // backgroundColor: Colors.blueGrey
       ),
       //debugShowCheckedModeBanner: false,
       home: _loading ? _loadingScreen() : HomeScreen(),

@@ -100,6 +100,8 @@ class _ProductListState extends State<ProductList> {
           ),
         ),
         body: LiquidPullToRefresh(
+        color: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).backgroundColor,
         showChildOpacityTransition: false,
         onRefresh: () => fetchData(page),
         child:ListView.builder(
@@ -138,7 +140,7 @@ Widget _buildProgressIndicator() {
           highlightColor: Colors.grey[100],
           child: Container(
             margin: EdgeInsets.all(22.0),
-            color: Colors.white,
+            color: Theme.of(context).accentColor
           )),
     );
   }
