@@ -10,13 +10,13 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Card(
+      elevation: 1,
       // onTap: () =>
       //     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       //   return ProductDetail(item: product);
       // })),
-      child: Card(
-        elevation: 1,
+      child: InkWell(
         child: Container(
           height: 130,
           padding: EdgeInsets.symmetric(vertical: 12),

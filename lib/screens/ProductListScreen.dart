@@ -44,9 +44,9 @@ class _ProductListState extends State<ProductList> {
     super.dispose();
   }
 
-  void _navigate(BuildContext context, Hero hero) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ProductDetail(hero)));
+  void _navigate(BuildContext context, Hero hero, Product item) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ProductDetail(hero, item)));
   }
 
   Future<void> fetchData(int index) async {
@@ -64,12 +64,12 @@ class _ProductListState extends State<ProductList> {
         endPoint + "?page=" + index.toString() + "&results=20" + paramQuery);
 
     var responseBody = jsonDecode(responseData.body);
-    print(responseBody);
     List<Product> tList = new List<Product>();
     count = responseBody.length + 1;
     if (responseData.statusCode == 200) {
       setState(() {
         for (Map productItem in responseBody) {
+          print(productItem);
           tList.add(Product.fromJson(productItem));
 //          print("\n\n\n" + productsList.last.title);
         }
@@ -90,65 +90,68 @@ class _ProductListState extends State<ProductList> {
     if (loading == 0) {
       return _shimmerEffect(0);
     } else {
-      return Container(
-          child: SafeArea(
-              top: false,
-              bottom: false,
-              child: Scaffold(
-                  appBar: AppBar(
-                    leading: InkWell(
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Color(0xfff79c4f),
-                      ),
-                      onTap: Navigator.of(context).pop,
-                    ),
-                    title: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: Text(
-                        "Order Groceries",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  body: Column(children: <Widget>[
-                    SearchWidget(),
-                    Expanded(
-                        flex: 1,
-                        child: LiquidPullToRefresh(
-                          color: Theme.of(context).accentColor,
-                          backgroundColor: Theme.of(context).backgroundColor,
-                          showChildOpacityTransition: false,
-                          onRefresh: () => fetchData(page),
-                          child: ListView.builder(
-                            itemCount: count > 0 ? count : 5,
-                            itemBuilder: (BuildContext context, int id) {
-                              if (id == productsList.length) {
-                                return _buildProgressIndicator();
-                              } else {
-                                if (productsList.length > 0) {
-                                  return GestureDetector(
-                                      onTap: () => this._navigate(
-                                          context,
-                                          Hero(
-                                            tag: productsList[id],
-                                            child: Image.network(
-                                              productsList[id].imageUri,
-                                            ),
-                                          )),
-                                      child: Hero(
-                                          tag: productsList[id],
-                                          child: ProductCard(
-                                              product: productsList[id])));
-                                } else
-                                  return _shimmerEffect(5);
-                              }
-                            },
-                            controller: _sc,
+      return Scaffold(
+          body: Container(
+              child: SafeArea(
+                  top: false,
+                  bottom: false,
+                  child: Scaffold(
+                      appBar: AppBar(
+                        leading: InkWell(
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Color(0xfff79c4f),
                           ),
-                        ))
-                  ]))));
+                          onTap: Navigator.of(context).pop,
+                        ),
+                        title: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: Text(
+                            "Order Groceries",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      body: Column(children: <Widget>[
+                        SearchWidget(),
+                        Expanded(
+                            flex: 1,
+                            child: LiquidPullToRefresh(
+                              color: Theme.of(context).accentColor,
+                              backgroundColor:
+                                  Theme.of(context).backgroundColor,
+                              showChildOpacityTransition: false,
+                              onRefresh: () => fetchData(page),
+                              child: ListView.builder(
+                                itemCount: count > 0 ? count : 5,
+                                itemBuilder: (BuildContext context, int id) {
+                                  if (id == productsList.length) {
+                                    return _buildProgressIndicator();
+                                  } else {
+                                    if (productsList.length > 0) {
+                                      return GestureDetector(
+                                          onTap: () => {this._navigate(
+                                              context,
+                                              Hero(
+                                                tag: productsList[id],
+                                                child: Image.network(
+                                                  productsList[id].imageUri,
+                                                ),
+                                              ),
+                                              productsList[id]),print(productsList[id].pricing)},
+                                          child: Hero(
+                                              tag: productsList[id],
+                                              child: ProductCard(
+                                                  product: productsList[id])));
+                                    } else
+                                      return _shimmerEffect(5);
+                                  }
+                                },
+                                controller: _sc,
+                              ),
+                            ))
+                      ])))));
     }
   }
 
