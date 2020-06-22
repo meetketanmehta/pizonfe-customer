@@ -4,7 +4,7 @@ class Pricing {
   String options;
   String storeName;
 
-  Pricing({this.price, this.storeId, this.options});
+  Pricing({this.price, this.storeId, this.options, this.storeName});
 
   Pricing.fromJson(Map<dynamic, dynamic> json) {
     this.price = json["price"];
