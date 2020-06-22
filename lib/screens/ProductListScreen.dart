@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:pizon_customer/models/Address.dart';
 import 'package:pizon_customer/models/Product.dart';
+import 'package:pizon_customer/screens/ProductDetail.dart';
 import 'package:pizon_customer/res/values/EndPoints.dart';
 import 'package:pizon_customer/src/widgets/ProductCard.dart';
 import 'package:pizon_customer/src/widgets/SearchWidget.dart';
@@ -43,6 +44,11 @@ class _ProductListState extends State<ProductList> {
     super.dispose();
   }
 
+  void _navigate(BuildContext context, Hero hero, Product item) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ProductDetail(hero, item)));
+  }
+
   Future<void> fetchData(int index) async {
     // Address address = await AddressState.getCurrentAddress();
 
@@ -56,13 +62,14 @@ class _ProductListState extends State<ProductList> {
     print("Reached here");
     var responseData = await http.get(
         endPoint + "?page=" + index.toString() + "&results=20" + paramQuery);
-    print(responseData);
+
     var responseBody = jsonDecode(responseData.body);
     List<Product> tList = new List<Product>();
     count = responseBody.length + 1;
     if (responseData.statusCode == 200) {
       setState(() {
         for (Map productItem in responseBody) {
+          print(productItem);
           tList.add(Product.fromJson(productItem));
 //          print("\n\n\n" + productsList.last.title);
         }
@@ -83,53 +90,68 @@ class _ProductListState extends State<ProductList> {
     if (loading == 0) {
       return _shimmerEffect(0);
     } else {
-      return Container(
-          child: SafeArea(
-              top: false,
-              bottom: false,
-              child: Scaffold(
-                  appBar: AppBar(
-                    leading: InkWell(
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Color(0xfff79c4f),
-                      ),
-                      onTap: Navigator.of(context).pop,
-                    ),
-                    title: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: Text(
-                        "Order Groceries",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-                  body: Column(children: <Widget>[
-                    SearchWidget(),
-                    Expanded(
-                        flex: 1,
-                        child: LiquidPullToRefresh(
-                          color: Theme.of(context).accentColor,
-                          backgroundColor: Theme.of(context).backgroundColor,
-                          showChildOpacityTransition: false,
-                          onRefresh: () => fetchData(page),
-                          child: ListView.builder(
-                            itemCount: count > 0 ? count : 5,
-                            itemBuilder: (BuildContext context, int id) {
-                              if (id == productsList.length) {
-                                return _buildProgressIndicator();
-                              } else {
-                                if (productsList.length > 0)
-                                  return ProductCard(product: productsList[id]);
-                                else
-                                  return _shimmerEffect(5);
-                              }
-                            },
-                            controller: _sc,
+      return Scaffold(
+          body: Container(
+              child: SafeArea(
+                  top: false,
+                  bottom: false,
+                  child: Scaffold(
+                      appBar: AppBar(
+                        leading: InkWell(
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Color(0xfff79c4f),
                           ),
-                        ))
-                  ]))));
+                          onTap: Navigator.of(context).pop,
+                        ),
+                        title: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          child: Text(
+                            "Order Groceries",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      body: Column(children: <Widget>[
+                        SearchWidget(),
+                        Expanded(
+                            flex: 1,
+                            child: LiquidPullToRefresh(
+                              color: Theme.of(context).accentColor,
+                              backgroundColor:
+                                  Theme.of(context).backgroundColor,
+                              showChildOpacityTransition: false,
+                              onRefresh: () => fetchData(page),
+                              child: ListView.builder(
+                                itemCount: count > 0 ? count : 5,
+                                itemBuilder: (BuildContext context, int id) {
+                                  if (id == productsList.length) {
+                                    return _buildProgressIndicator();
+                                  } else {
+                                    if (productsList.length > 0) {
+                                      return GestureDetector(
+                                          onTap: () => {this._navigate(
+                                              context,
+                                              Hero(
+                                                tag: productsList[id],
+                                                child: Image.network(
+                                                  productsList[id].imageUri,
+                                                ),
+                                              ),
+                                              productsList[id]),print(productsList[id].pricing)},
+                                          child: Hero(
+                                              tag: productsList[id],
+                                              child: ProductCard(
+                                                  product: productsList[id])));
+                                    } else
+                                      return _shimmerEffect(5);
+                                  }
+                                },
+                                controller: _sc,
+                              ),
+                            ))
+                      ])))));
     }
   }
 
@@ -146,6 +168,7 @@ class _ProductListState extends State<ProductList> {
   }
 
   Widget _shimmerEffect(int count) {
+    print("Shimmering");
     return SizedBox(
       width: MediaQuery.of(context).size.width * .85,
       height: 100.0,
