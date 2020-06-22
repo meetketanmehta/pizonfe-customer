@@ -251,17 +251,32 @@ class _CartScreen extends State<CartScreen> {
     );
   }
 
+  Widget _emptyCartBody() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(Icons.shopping_cart, size: 60,),
+          SizedBox(height: 20),
+          Text("Your cart is empty"),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(Strings.cartScreenTitle),
       ),
-      bottomNavigationBar: _bottomAppBar(),
+      bottomNavigationBar: (items.isNotEmpty) ? _bottomAppBar() : null,
       backgroundColor: Colors.grey[100],
-      body: ListView(
-        children: _storesComponent() + <Widget>[_finalPrice()],
-      ),
+      body: (items.isEmpty)
+          ? _emptyCartBody()
+          : ListView(
+              children: _storesComponent() + <Widget>[_finalPrice()],
+            ),
     );
   }
 }
