@@ -10,6 +10,7 @@ import 'package:pizon_customer/src/widgets/BottomNavigationBarWidget.dart';
 class ProductDetail extends StatefulWidget {
   final Hero _hero;
   final Product item;
+
   ProductDetail(this._hero, this.item);
   @override
   _ProductDetailState createState() => _ProductDetailState();
@@ -23,11 +24,73 @@ class _ProductDetailState extends State<ProductDetail> {
   }
 
   bool added;
+  int index = 0;
   void check() {
     setState(() {
-      added = CartManager.existsInCart(
-          CartProduct(widget.item, Pricing.fromJson(widget.item.pricing[0])));
+      added = CartManager.existsInCart(CartProduct(
+          widget.item, Pricing.fromJson(widget.item.pricing[this.index])));
     });
+    print(added);
+  }
+
+  void displayPopup() {
+    print(widget.item.pricing[this.index]['options']);
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Select Options"),
+            content: SizedBox(
+              height: MediaQuery.of(context).size.width / 2,
+              width: MediaQuery.of(context).size.width - 10,
+              child: ListView.separated(
+                separatorBuilder: (context, index) => Divider(
+                  height: 1,
+                  color: Colors.grey,
+                ),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: widget.item.pricing.length,
+                itemBuilder: (context, id) {
+                  print(id);
+                  return GestureDetector(
+                      onTap: () => {
+                            setState(() {
+                              this.index = id;
+                              print(this.index);
+                              check();
+                              Navigator.of(context, rootNavigator: true)
+                                  .pop('dialog');
+                              // Navigator.of(context).pop();
+                            })
+                          },
+                      child: ListTile(
+                          title: Text(widget.item.pricing[id]['options'])));
+                },
+              ),
+            ),
+            // actions: <Widget>[
+            //     FlatButton(
+            //         onPressed: () {
+            //             Navigator.of(context).pop();
+            //     },
+            //         child: Container(
+            //             color: MobikulTheme.accentColor,
+            //             child: Padding(
+            //                 padding: EdgeInsets.fromLTRB(
+            //                     spacing_normal,
+            //                     spacing_generic,
+            //                     spacing_normal,
+            //                     spacing_generic),
+            //                 child: Text(
+            //                     ok,
+            //                     style: TextStyle(color: Colors.white),
+            //                     ),
+            //                 ),
+            //             ))
+            // ],
+          );
+        });
   }
 
   // final Hero _hero;
@@ -86,17 +149,19 @@ class _ProductDetailState extends State<ProductDetail> {
                                   fontWeight: FontWeight.w700,
                                   color: Theme.of(context).primaryColorDark)),
                           Text(
-                              widget.item.pricing[0]["options"] != null
-                                  ? widget.item.pricing[0]["options"]
+                              widget.item.pricing[this.index]["options"] != null
+                                  ? widget.item.pricing[this.index]["options"]
                                   : 'null',
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                   color: Theme.of(context).primaryColorLight)),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: Color(0xFF999999),
-                          )
+                          IconButton(
+                              onPressed: () => {this.displayPopup()},
+                              icon: Icon(
+                                Icons.arrow_forward_ios,
+                                color: Color(0xFF999999),
+                              ))
                         ],
                       ),
                     ),
@@ -116,8 +181,9 @@ class _ProductDetailState extends State<ProductDetail> {
                                   fontWeight: FontWeight.w700,
                                   color: Theme.of(context).primaryColorDark)),
                           Text(
-                              widget.item.pricing[0]["price"] != 0
-                                  ? widget.item.pricing[0]["price"].toString()
+                              widget.item.pricing[this.index]["price"] != 0
+                                  ? widget.item.pricing[this.index]["price"]
+                                      .toString()
                                   : 'null',
                               style: TextStyle(
                                   color: Theme.of(context).primaryColorLight,
@@ -173,10 +239,12 @@ class _ProductDetailState extends State<ProductDetail> {
                             color: Theme.of(context).primaryColorDark,
                             onPressed: () {
                               setState(() => this.added = false);
-                              
+
                               print(this.added);
-                              CartManager.removeProduct(CartProduct(widget.item,
-                                  Pricing.fromJson(widget.item.pricing[0])));
+                              CartManager.removeProduct(CartProduct(
+                                  widget.item,
+                                  Pricing.fromJson(
+                                      widget.item.pricing[this.index])));
                               // bloc.removeFromCart(CartProduct(this.item,Pricing.fromJson(this.item.pricing[0])));
                             },
                             child: Text('Remove from Cart',
@@ -188,14 +256,16 @@ class _ProductDetailState extends State<ProductDetail> {
                             color: Theme.of(context).primaryColorDark,
                             onPressed: () {
                               setState(() => this.added = true);
-                              
+
                               // this.item.pricing[0]["price"] = this.item.pricing[0]["price"].toDouble();
                               // bloc.addToCart(CartProduct(this.item,Pricing.fromJson(this.item.pricing[0])),2);
                               CartManager.addProduct(
-                                  CartProduct(widget.item,
-                                      Pricing.fromJson(widget.item.pricing[0])),
-                                  2);
-                              print(widget.item.pricing[0]["options"]);
+                                  CartProduct(
+                                      widget.item,
+                                      Pricing.fromJson(
+                                          widget.item.pricing[this.index])),
+                                  1);
+                              print(widget.item.pricing[this.index]["options"]);
                             },
                             child: Text('Add to Cart',
                                 style: TextStyle(

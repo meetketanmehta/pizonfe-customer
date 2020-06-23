@@ -221,13 +221,14 @@ class _CartScreen extends State<CartScreen> {
                         "Delivery Address",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text(
-                        CartManager.address.addType != null
-                            ? CartManager.address.addType
-                            : CartManager.address.completeAdd,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                      ),
+                      // Text(
+                      //   CartManager.address.addType != null || CartManager.address != null
+                      //       ? CartManager.address.addType
+                      //       // : CartManager.address.completeAdd,
+                      //       :"Error",
+                      //   overflow: TextOverflow.ellipsis,
+                      //   softWrap: true,
+                      // ),
                     ],
                   ),
                 ),
