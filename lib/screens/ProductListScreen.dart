@@ -7,6 +7,7 @@ import 'package:pizon_customer/models/Address.dart';
 import 'package:pizon_customer/models/Product.dart';
 import 'package:pizon_customer/screens/ProductDetail.dart';
 import 'package:pizon_customer/res/values/EndPoints.dart';
+import 'package:pizon_customer/src/widgets/BottomNavigationBarWidget.dart';
 import 'package:pizon_customer/src/widgets/ProductCard.dart';
 import 'package:pizon_customer/src/widgets/SearchWidget.dart';
 import 'package:pizon_customer/states/AddressState.dart';
@@ -69,10 +70,18 @@ class _ProductListState extends State<ProductList> {
     if (responseData.statusCode == 200) {
       setState(() {
         for (Map productItem in responseBody) {
-          print(productItem);
+          // print(productItem);
+          // productItem.pricing[0].p
+          // productItem.map((key, value) =>
+          //     value.pricing[0]['price'] = value.pricing[0]['price'].toDouble());
           tList.add(Product.fromJson(productItem));
 //          print("\n\n\n" + productsList.last.title);
         }
+        tList.forEach((element) {
+          element.pricing.forEach((element) {
+            element['price'] = element['price'].toDouble();
+          });
+        });
         // loading = false;
         loading = false;
         productsList.addAll(tList);
@@ -91,6 +100,9 @@ class _ProductListState extends State<ProductList> {
       return _shimmerEffect(0);
     } else {
       return Scaffold(
+        bottomNavigationBar: BottomNavigationBarWidget(
+          currentIndex: 0,
+        ),
           body: Container(
               child: SafeArea(
                   top: false,
@@ -131,15 +143,21 @@ class _ProductListState extends State<ProductList> {
                                   } else {
                                     if (productsList.length > 0) {
                                       return GestureDetector(
-                                          onTap: () => {this._navigate(
-                                              context,
-                                              Hero(
-                                                tag: productsList[id],
-                                                child: Image.network(
-                                                  productsList[id].imageUri,
-                                                ),
-                                              ),
-                                              productsList[id]),print(productsList[id].pricing)},
+                                          onTap: () => {
+                                                this._navigate(
+                                                    context,
+                                                    Hero(
+                                                        tag: productsList[id],
+                                                        child: SizedBox(
+                                                          width:MediaQuery.of(context).size.width * 0.7,
+                                                          child: Image.network(
+                                                            productsList[id]
+                                                                .imageUri,
+                                                          ),
+                                                        )),
+                                                    productsList[id]),
+                                                print(productsList[id].pricing)
+                                              },
                                           child: Hero(
                                               tag: productsList[id],
                                               child: ProductCard(
