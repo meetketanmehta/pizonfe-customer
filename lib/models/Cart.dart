@@ -62,12 +62,13 @@ class CartManager {
 
   static bool existsInCart(CartProduct cartProduct1) {
     print("exists cart called");
+    bool index = false;
     // string totalPrice = '';
-    cartProducts.forEach((cartProduct, quantity) {
+    cartProducts.forEach((cartProduct,quantity) {
       if(cartProduct1 == cartProduct)
-      return true;
+      {index = true;}
     });
-    return false;
+    return index;
   }
 
   static double getCartTotalPrice() {
