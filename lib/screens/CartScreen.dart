@@ -16,58 +16,63 @@ class _CartScreen extends State<CartScreen> {
   var items = Map<String, Map<CartProduct, int>>();
 
   _CartScreen() {
-//    _initializeCart();
+  //  _initializeCart();
     setValues();
   }
 
-  void _initializeCart() {
-    CartManager.setAddress(Address(
-        completeAdd:
-            "Plot No 208 - c, Radheshyam Park, Near Jain Derasar, Mahuva"));
+  // void _initializeCart() {
+  //   CartManager.setAddress(Address(
+  //       completeAdd:
+  //           "Plot No 208 - c, Radheshyam Park, Near Jain Derasar, Mahuva"));
 
-    var proNames = [
-      "Dairy Milk Silk HazelNut Chocolate Bar",
-      "Dairy Milk Silk HazelNut Chocolate Bar",
-      "Dairy Milk Silk Chocolate Bar",
-      "Dairy Milk Silk Bubbly Chocolate Bar",
-      "Oreo Biscuit - Chocolate Creme",
-      "Potato Chips - Indians Magic Masala",
-      "Potato Chips - Indians Magic Masala"
-    ];
+  //   var proNames = [
+  //     "Dairy Milk Silk HazelNut Chocolate Bar",
+  //     "Dairy Milk Silk HazelNut Chocolate Bar",
+  //     "Dairy Milk Silk Chocolate Bar",
+  //     "Dairy Milk Silk Bubbly Chocolate Bar",
+  //     "Oreo Biscuit - Chocolate Creme",
+  //     "Potato Chips - Indians Magic Masala",
+  //     "Potato Chips - Indians Magic Masala"
+  //   ];
 
-    var proImageUri = [
-      "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-hazelnut-chocolate-bar.jpg",
-      "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-hazelnut-chocolate-bar.jpg",
-      "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-chocolate-bar.jpg",
-      "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-bubbly-chocolate-bar.jpg",
-      "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-oreo-creame-biscuit-chocolate.jpg",
-      "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/lays-potato-chips-indias-magic-masala.jpg",
-      "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/lays-potato-chips-indias-magic-masala.jpg"
-    ];
+  //   var proImageUri = [
+  //     "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-hazelnut-chocolate-bar.jpg",
+  //     "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-hazelnut-chocolate-bar.jpg",
+  //     "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-chocolate-bar.jpg",
+  //     "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-bubbly-chocolate-bar.jpg",
+  //     "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-oreo-creame-biscuit-chocolate.jpg",
+  //     "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/lays-potato-chips-indias-magic-masala.jpg",
+  //     "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/lays-potato-chips-indias-magic-masala.jpg"
+  //   ];
 
-    var options = ["100 g", "40 g", "50 g", "5 ml", "1 kg", "2 packs", "2 kg"];
-    var storeName = [
-      "Pizon Retail",
-      "ABC Retail",
-      "Pizon Retail",
-      "ABC Retail",
-      "Pizon Retail",
-      "ABC Retail",
-      "Pizon Retail"
-    ];
-    var prices = [12.0, 15.0, 25.0, 35.0, 45.0, 60.0, 10.0];
+  //   var options = ["100 g", "40 g", "50 g", "5 ml", "1 kg", "2 packs", "2 kg"];
+  //   var storeName = [
+  //     "Pizon Retail",
+  //     "ABC Retail",
+  //     "Pizon Retail",
+  //     "ABC Retail",
+  //     "Pizon Retail",
+  //     "ABC Retail",
+  //     "Pizon Retail"
+  //   ];
+  //   var prices = [12.0, 15.0, 25.0, 35.0, 45.0, 60.0, 10.0];
 
-    for (var i = 0; i < 7; i++) {
-      CartManager.addProduct(
-          CartProduct(
-              Product(title: proNames[i], imageUri: proImageUri[i]),
-              Pricing(
-                  options: options[i],
-                  storeName: storeName[i],
-                  price: prices[i])),
-          i + 1);
-    }
-  }
+  //   for (var i = 0; i < 7; i++) {
+  //     CartManager.addProduct(
+  //         CartProduct(
+  //             Product(title: proNames[i], imageUri: proImageUri[i]),
+  //             Pricing(
+  //                 options: options[i],
+  //                 storeName: storeName[i],
+  //                 price: prices[i])),
+  //         i + 1);
+  //   }
+  //   print(CartManager);
+  // }
+
+  // void _intialise2 () {
+  //   CartManager.cartDetails();
+  // }
 
   void setValues() {
     items.clear();
@@ -134,7 +139,7 @@ class _CartScreen extends State<CartScreen> {
         margin: EdgeInsets.only(bottom: 10),
         padding: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          color: Colors.white,
+          // color: Colors.white,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,7 +181,7 @@ class _CartScreen extends State<CartScreen> {
       margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        // color: Colors.white,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -271,7 +276,7 @@ class _CartScreen extends State<CartScreen> {
         title: Text(Strings.cartScreenTitle),
       ),
       bottomNavigationBar: (items.isNotEmpty) ? _bottomAppBar() : null,
-      backgroundColor: Colors.grey[100],
+      // backgroundColor: Colors.grey[100],
       body: (items.isEmpty)
           ? _emptyCartBody()
           : ListView(

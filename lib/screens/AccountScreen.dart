@@ -55,7 +55,7 @@ class _KnownUserAccountScreen extends StatelessWidget {
     void _myAddressesHandler() {}
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("Account"),
         elevation: 1,
@@ -173,7 +173,7 @@ class _UnKnownUserAccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Theme.of(context).primaryColorLight,
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
