@@ -1,3 +1,5 @@
+import 'package:pizon_customer/models/Pricing.dart';
+
 class Product {
   String id;
   String title;
@@ -7,6 +9,7 @@ class Product {
   String subCategory;
   String imageUri;
   var pricing = [];
+  Pricing selectedPricing;
 
   Product(
       {this.id,
@@ -16,9 +19,10 @@ class Product {
       this.subCategory,
       this.imageUri,
       this.brand,
-      this.pricing,});
+      this.pricing,
+      this.selectedPricing});
 
-  Product.fromJson(Map<String, dynamic> json) {
+  Product.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     title = json['title'];
     description = json['description'];
@@ -26,9 +30,18 @@ class Product {
     subCategory = json['subCategory'];
     imageUri = json['imageUri'];
     brand = json['brand'];
-    pricing = json['pricing'];
+    for(Map price in json['pricing']){
+      pricing.add(Pricing.fromJson(price));
+      if(selectedPricing ==null){
+        selectedPricing = pricing.last;
+      }
+      else{
+        if(selectedPricing.price > pricing.last.price){
+          selectedPricing = pricing.last;
+        }
+      }
+    }
 
-    //TODO pricing
   }
   Map<String, dynamic> toJson() => {
     // final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -41,6 +54,7 @@ class Product {
     'imageUri':imageUri,
     'brand':brand,
     'pricing':pricing,
+    'selectedPricing': selectedPricing,
 
     // return data;
   };

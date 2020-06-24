@@ -16,7 +16,7 @@ class _CartScreen extends State<CartScreen> {
   var items = Map<String, Map<CartProduct, int>>();
 
   _CartScreen() {
-//    _initializeCart();
+    _initializeCart();
     setValues();
   }
 

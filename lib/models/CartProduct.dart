@@ -1,3 +1,4 @@
+
 import 'Product.dart';
 import 'Pricing.dart';
 import 'package:equatable/equatable.dart';

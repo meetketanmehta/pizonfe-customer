@@ -26,12 +26,12 @@ class ProductDetail extends StatelessWidget {
           color: Theme.of(context).accentColor,
           child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
             this._hero,
-            // RaisedButton(
-            //   onPressed: () {
-            //     print(this.item.pricing[0]["options"]);
-            //   },
-            //   child: Text('Disabled Button', style: TextStyle(fontSize: 20)),
-            // ),
+             RaisedButton(
+               onPressed: () {
+                 print(this.item.pricing[0].options);
+               },
+               child: Text('Disabled Button', style: TextStyle(fontSize: 20)),
+             ),
             SizedBox(
               height: 10,
             ),
@@ -47,7 +47,7 @@ class ProductDetail extends StatelessWidget {
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).primaryColorDark)),
-                  Text(this.item.pricing[0]["options"]!=null?this.item.pricing[0]["options"]:'null',
+                  Text(this.item.pricing[0].options!=null?this.item.pricing[0].options:'null',
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -74,7 +74,7 @@ class ProductDetail extends StatelessWidget {
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: Theme.of(context).primaryColorDark)),
-                  Text(this.item.pricing[0]["price"]!=0?this.item.pricing[0]["price"].toString():'null',
+                  Text(this.item.pricing[0].price!=0?this.item.pricing[0].price.toString():'null',
                       style: TextStyle(
                           color: Theme.of(context).primaryColorLight,
                           fontFamily: 'Roboto-Light.ttf',
@@ -119,7 +119,7 @@ class ProductDetail extends StatelessWidget {
             RaisedButton(
               color: Theme.of(context).primaryColorDark,
               onPressed: () {
-                print(this.item.pricing[0]["options"]);
+                print(this.item.pricing[0].options);
               },
               child: Text('Add to Cart', style: TextStyle(fontSize: 20, color: Theme.of(context).primaryColor)),
             ),
