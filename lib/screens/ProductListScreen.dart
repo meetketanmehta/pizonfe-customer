@@ -8,6 +8,7 @@ import 'package:pizon_customer/models/Pricing.dart';
 import 'package:pizon_customer/models/Product.dart';
 import 'package:pizon_customer/res/values/EndPoints.dart';
 import 'package:pizon_customer/screens/ProductDetail.dart';
+import 'package:pizon_customer/src/widgets/BottomNavigationBarWidget.dart';
 import 'package:pizon_customer/src/widgets/ProductCard.dart';
 import 'package:pizon_customer/src/widgets/SearchWidget.dart';
 import 'package:shimmer/shimmer.dart';
@@ -43,11 +44,6 @@ class _ProductListState extends State<ProductList> {
     super.dispose();
   }
 
-  void _navigate(BuildContext context, Hero hero, Product item) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ProductDetail(hero, item)));
-  }
-
   Future<void> fetchData(int index) async {
     // Address address = await AddressState.getCurrentAddress();
 
@@ -68,9 +64,14 @@ class _ProductListState extends State<ProductList> {
     if (responseData.statusCode == 200) {
       setState(() {
         for (Map productItem in responseBody) {
-          print(productItem);
           tList.add(Product.fromJson(productItem));
         }
+
+        tList.forEach((element) {
+          element.pricing.forEach((element) {
+            element.price = element.price.toDouble();
+          });
+        });
         loading = false;
         productsList.addAll(tList);
         page++;
@@ -88,6 +89,9 @@ class _ProductListState extends State<ProductList> {
       return _shimmerEffect(0);
     } else {
       return Scaffold(
+        bottomNavigationBar: BottomNavigationBarWidget(
+          currentIndex: 0,
+        ),
           body: Container(
               child: SafeArea(
                   top: false,
@@ -127,6 +131,7 @@ class _ProductListState extends State<ProductList> {
                                     return _buildProgressIndicator();
                                   } else {
                                     if (productsList.length > 0) {
+
                                       return ProductCard(product: productsList[id],);
                                     } else
                                       return _shimmerEffect(5);

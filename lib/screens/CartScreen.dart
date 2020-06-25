@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../res/values/Strings.dart';
-import 'package:pizon_customer/src/widgets/CartProductCard.dart';
-import 'package:pizon_customer/models/CartProduct.dart';
-import 'package:pizon_customer/models/Product.dart';
-import 'package:pizon_customer/models/Pricing.dart';
+import 'package:flutter/rendering.dart';
 import 'package:pizon_customer/models/Cart.dart';
-import 'package:pizon_customer/models/Address.dart';
+import 'package:pizon_customer/models/CartProduct.dart';
+import 'package:pizon_customer/screens/UpdateLocationScreen.dart';
+import 'package:pizon_customer/src/widgets/CartProductCard.dart';
+import 'package:pizon_customer/states/AddressState.dart';
+
+import '../res/values/Strings.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -16,58 +17,63 @@ class _CartScreen extends State<CartScreen> {
   var items = Map<String, Map<CartProduct, int>>();
 
   _CartScreen() {
-    _initializeCart();
+    //  _initializeCart();
     setValues();
   }
 
-  void _initializeCart() {
-    CartManager.setAddress(Address(
-        completeAdd:
-            "Plot No 208 - c, Radheshyam Park, Near Jain Derasar, Mahuva"));
+  // void _initializeCart() {
+  //   CartManager.setAddress(Address(
+  //       completeAdd:
+  //           "Plot No 208 - c, Radheshyam Park, Near Jain Derasar, Mahuva"));
 
-    var proNames = [
-      "Dairy Milk Silk HazelNut Chocolate Bar",
-      "Dairy Milk Silk HazelNut Chocolate Bar",
-      "Dairy Milk Silk Chocolate Bar",
-      "Dairy Milk Silk Bubbly Chocolate Bar",
-      "Oreo Biscuit - Chocolate Creme",
-      "Potato Chips - Indians Magic Masala",
-      "Potato Chips - Indians Magic Masala"
-    ];
+  //   var proNames = [
+  //     "Dairy Milk Silk HazelNut Chocolate Bar",
+  //     "Dairy Milk Silk HazelNut Chocolate Bar",
+  //     "Dairy Milk Silk Chocolate Bar",
+  //     "Dairy Milk Silk Bubbly Chocolate Bar",
+  //     "Oreo Biscuit - Chocolate Creme",
+  //     "Potato Chips - Indians Magic Masala",
+  //     "Potato Chips - Indians Magic Masala"
+  //   ];
 
-    var proImageUri = [
-      "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-hazelnut-chocolate-bar.jpg",
-      "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-hazelnut-chocolate-bar.jpg",
-      "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-chocolate-bar.jpg",
-      "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-bubbly-chocolate-bar.jpg",
-      "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-oreo-creame-biscuit-chocolate.jpg",
-      "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/lays-potato-chips-indias-magic-masala.jpg",
-      "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/lays-potato-chips-indias-magic-masala.jpg"
-    ];
+  //   var proImageUri = [
+  //     "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-hazelnut-chocolate-bar.jpg",
+  //     "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-hazelnut-chocolate-bar.jpg",
+  //     "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-chocolate-bar.jpg",
+  //     "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-dairy-milk-silk-bubbly-chocolate-bar.jpg",
+  //     "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/cadbury-oreo-creame-biscuit-chocolate.jpg",
+  //     "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/lays-potato-chips-indias-magic-masala.jpg",
+  //     "https://pizon-images.s3.amazonaws.com/products/Grocery/Snacks/lays-potato-chips-indias-magic-masala.jpg"
+  //   ];
 
-    var options = ["100 g", "40 g", "50 g", "5 ml", "1 kg", "2 packs", "2 kg"];
-    var storeName = [
-      "Pizon Retail",
-      "ABC Retail",
-      "Pizon Retail",
-      "ABC Retail",
-      "Pizon Retail",
-      "ABC Retail",
-      "Pizon Retail"
-    ];
-    var prices = [12.0, 15.0, 25.0, 35.0, 45.0, 60.0, 10.0];
+  //   var options = ["100 g", "40 g", "50 g", "5 ml", "1 kg", "2 packs", "2 kg"];
+  //   var storeName = [
+  //     "Pizon Retail",
+  //     "ABC Retail",
+  //     "Pizon Retail",
+  //     "ABC Retail",
+  //     "Pizon Retail",
+  //     "ABC Retail",
+  //     "Pizon Retail"
+  //   ];
+  //   var prices = [12.0, 15.0, 25.0, 35.0, 45.0, 60.0, 10.0];
 
-    for (var i = 0; i < 7; i++) {
-      CartManager.addProduct(
-          CartProduct(
-              Product(title: proNames[i], imageUri: proImageUri[i]),
-              Pricing(
-                  options: options[i],
-                  storeName: storeName[i],
-                  price: prices[i])),
-          i + 1);
-    }
-  }
+  //   for (var i = 0; i < 7; i++) {
+  //     CartManager.addProduct(
+  //         CartProduct(
+  //             Product(title: proNames[i], imageUri: proImageUri[i]),
+  //             Pricing(
+  //                 options: options[i],
+  //                 storeName: storeName[i],
+  //                 price: prices[i])),
+  //         i + 1);
+  //   }
+  //   print(CartManager);
+  // }
+
+  // void _intialise2 () {
+  //   CartManager.cartDetails();
+  // }
 
   void setValues() {
     items.clear();
@@ -77,6 +83,9 @@ class _CartScreen extends State<CartScreen> {
       }
       items[cartProduct.pricing.storeName][cartProduct] = quantity;
     });
+    if (AddressState.selectedAddress != null) {
+      CartManager.setAddress(AddressState.selectedAddress);
+    } else {}
   }
 
   void increaseQuantity(CartProduct cartProduct) {
@@ -134,8 +143,8 @@ class _CartScreen extends State<CartScreen> {
         margin: EdgeInsets.only(bottom: 10),
         padding: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          color: Colors.white,
-        ),
+            // color: Colors.white,
+            ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -176,8 +185,8 @@ class _CartScreen extends State<CartScreen> {
       margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
-      ),
+          // color: Colors.white,
+          ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -210,19 +219,36 @@ class _CartScreen extends State<CartScreen> {
                   padding: EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
                         "Delivery Address",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Text(
-                        CartManager.address.addType != null
-                            ? CartManager.address.addType
-                            : CartManager.address.completeAdd,
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: true,
-                      ),
+                      CartManager.address != null
+                          ? Text(
+                              CartManager.address.addType != null
+                                  ? CartManager.address.addType
+                                  : CartManager.address.completeAdd,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: true,
+                            )
+                          : Container(
+                              padding: EdgeInsets.only(bottom: 2),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (_) => UpdateLocationScreen()));
+                                },
+                                child: Text(
+                                  "Select Address",
+                                  style: TextStyle(
+                                      color: Color(0xfff7892b),
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
                     ],
                   ),
                 ),
@@ -256,7 +282,10 @@ class _CartScreen extends State<CartScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(Icons.shopping_cart, size: 60,),
+          Icon(
+            Icons.shopping_cart,
+            size: 60,
+          ),
           SizedBox(height: 20),
           Text("Your cart is empty"),
         ],
@@ -271,7 +300,7 @@ class _CartScreen extends State<CartScreen> {
         title: Text(Strings.cartScreenTitle),
       ),
       bottomNavigationBar: (items.isNotEmpty) ? _bottomAppBar() : null,
-      backgroundColor: Colors.grey[100],
+      // backgroundColor: Colors.grey[100],
       body: (items.isEmpty)
           ? _emptyCartBody()
           : ListView(

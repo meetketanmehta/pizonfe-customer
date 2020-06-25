@@ -1,19 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:pizon_customer/models/Address.dart';
 import 'package:pizon_customer/models/Pricing.dart';
 import 'package:pizon_customer/models/Product.dart';
-import 'package:pizon_customer/res/values/EndPoints.dart';
 import 'package:pizon_customer/screens/ProductDetail.dart';
-import 'package:pizon_customer/src/widgets/BottomNavigationBarWidget.dart';
-import 'package:pizon_customer/src/widgets/ProductCard.dart';
-import 'package:pizon_customer/src/widgets/SearchWidget.dart';
-import 'package:pizon_customer/states/AddressState.dart';
-import 'package:shimmer/shimmer.dart';
 
 class ProductCard extends StatefulWidget {
   Product product;
@@ -24,10 +13,7 @@ class ProductCard extends StatefulWidget {
   _ProductCardState createState() => _ProductCardState();
 }
 
-
 class _ProductCardState extends State<ProductCard> {
-
-
   void _navigate(BuildContext context, Hero hero, Product item) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => ProductDetail(hero, item)));
@@ -36,120 +22,122 @@ class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 1,
-      // onTap: () =>
-      //     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      //   return ProductDetail(item: product);
-      // })),
-      child: InkWell(
-        child: Container(
-          height: 130,
-          padding: EdgeInsets.symmetric(vertical: 12),
-          child: Row(
-            children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width * 0.32,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Image.network(
-                        widget.product.imageUri,
-                        height: 90,
-                        width: 90,
-                      ),
-                    ]),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.60,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          widget.product.title,
-                          style: TextStyle(color: Colors.grey),
-                          maxLines: 1,
-                        ),
-                        Text(widget.product.description != null
-                            ? widget.product.description
-                            : widget.product.subCategory +
-                                " (" +
-                                widget.product.selectedPricing.options +
-                                ")"),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 8),
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: Colors.grey),
-                          borderRadius: BorderRadius.all(Radius.circular(4))),
-                      child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.50,
-                          height: 30,
-                          child: InkWell(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text("See more options.."),
-                                Icon(
-                                  Icons.arrow_drop_down,
-                                  size: 25,
-                                  color: Colors.grey,
-                                )
-                              ],
-                            ),
-                            onTap: () =>
-                                {_showAlertDialog(context, widget.product)},
-                          )),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          "Rs " +
-                              widget.product.selectedPricing.price.toString(),
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        GestureDetector(
-                          onTap: () => {
-                            this._navigate(
-                                context,
-                                Hero(
+        elevation: 1,
+        // onTap: () =>
+        //     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        //   return ProductDetail(item: product);
+        // })),
+        child: InkWell(
+            child: Container(
+                height: 130,
+                padding: EdgeInsets.symmetric(vertical: 12),
+                child: Row(children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.32,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Image.network(
+                            widget.product.imageUri,
+                            height: 90,
+                            width: 90,
+                          ),
+                        ]),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.60,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                widget.product.title,
+                                style: TextStyle(color: Colors.grey),
+                                maxLines: 1,
+                              ),
+                              Text(widget.product.description != null
+                                  ? widget.product.description
+                                  : widget.product.subCategory +
+                                      " (" +
+                                      widget.product.selectedPricing.options +
+                                      ")"),
+                            ],
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(vertical: 8),
+                            padding: EdgeInsets.symmetric(horizontal: 5),
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 1, color: Colors.grey),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4))),
+                            child: SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.50,
+                                height: 30,
+                                child: InkWell(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text("See more options.."),
+                                      Icon(
+                                        Icons.arrow_drop_down,
+                                        size: 25,
+                                        color: Colors.grey,
+                                      )
+                                    ],
+                                  ),
+                                  onTap: () => {
+                                    _showAlertDialog(context, widget.product)
+                                  },
+                                )),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              Text(
+                                "Rs " +
+                                    widget.product.selectedPricing.price
+                                        .toString(),
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              GestureDetector(
+                                onTap: () => {
+                                  this._navigate(
+                                      context,
+                                      Hero(
+                                          tag: widget.product,
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.7,
+                                            child: Image.network(
+                                              widget.product.imageUri,
+                                            ),
+                                          )),
+                                      widget.product),
+                                  print(widget.product.pricing)
+                                },
+                                child: Hero(
                                     tag: widget.product,
-                                    child: SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.7,
-                                      child: Image.network(
-                                        widget.product.imageUri,
-                                      ),
+                                    child: Text(
+                                      "VIEW",
+                                      style:
+                                          TextStyle(color: Color(0xfff79c4f)),
                                     )),
-                                widget.product),
-                            print(widget.product.pricing)
-                          },
-                          child: Hero(
-                              tag: widget.product,
-                              child: Text(
-                                "VIEW",
-                                style: TextStyle(color: Color(0xfff79c4f)),
-                              )),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+                              )
+                            ],
+                          ),
+                        ]),
+                  ),
+                ]))));
   }
 
   Future<dynamic> _showAlertDialog(

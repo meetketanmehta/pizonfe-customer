@@ -19,6 +19,7 @@ class CartManager {
   }
 
   static void addProduct(CartProduct cartProduct, int quantity) {
+    // print('{$CartProduct.product.title} has been added to cart');
     cartProducts[cartProduct] = quantity;
   }
 
@@ -39,6 +40,35 @@ class CartManager {
 
   static int getQuantity(CartProduct cartProduct) {
     return cartProducts[cartProduct];
+  }
+
+  static int viewCart(CartProduct cartProduct) {
+    print("View cart called");
+    // string totalPrice = '';
+    cartProducts.forEach((cartProduct, quantity) {
+      print(cartProduct.product.title);
+    });
+    return 1;
+  }
+
+  static int cartDetails() {
+    // print("View cart called");
+    // string totalPrice = '';
+    cartProducts.forEach((cartProduct, quantity) {
+      print(cartProduct.product.toJson());
+    });
+    return 1;
+  }
+
+  static bool existsInCart(CartProduct cartProduct1) {
+    print("exists cart called");
+    bool index = false;
+    // string totalPrice = '';
+    cartProducts.forEach((cartProduct,quantity) {
+      if(cartProduct1 == cartProduct)
+      {index = true;}
+    });
+    return index;
   }
 
   static double getCartTotalPrice() {
