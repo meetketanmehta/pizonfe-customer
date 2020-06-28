@@ -6,7 +6,9 @@ import 'package:flutter_user_auth/flutter_user_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:pizon_customer/models/Address.dart';
 import 'package:pizon_customer/res/values/EndPoints.dart';
+import 'package:pizon_customer/screens/HomeScreen.dart';
 import 'package:pizon_customer/screens/MapScreen.dart';
+import 'package:pizon_customer/states/AddressState.dart';
 import 'package:shimmer/shimmer.dart';
 
 class UpdateLocationScreen extends StatefulWidget {
@@ -52,6 +54,9 @@ class _UpdateLocationScreenState extends State<UpdateLocationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (loading == true) {
+      print("\n\n" + "HELLO");
+    }
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -118,7 +123,7 @@ class _UpdateLocationScreenState extends State<UpdateLocationScreen> {
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 10),
-                  child: InkWell(
+                  child: GestureDetector(
                     onTap: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (_) => MapScreen()));
@@ -149,13 +154,14 @@ class _UpdateLocationScreenState extends State<UpdateLocationScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: loading ? Text(""): Text(
-                      "Saved Addresses",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                    )
-                  ),
+                      margin: EdgeInsets.only(bottom: 10),
+                      child: loading
+                          ? Text("")
+                          : Text(
+                              "Saved Addresses",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15),
+                            )),
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
                     child: new ListView.builder(
@@ -164,40 +170,52 @@ class _UpdateLocationScreenState extends State<UpdateLocationScreen> {
                         itemBuilder: (BuildContext context, int idx) {
                           if (loading == false) {
                             Address curr = savedAddresses[idx];
-                            return Container(
-                              margin: EdgeInsets.only(bottom: 10),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                      margin: EdgeInsets.only(right: 5),
-                                      child: myIcon(curr.addType)),
-                                  Container(
-                                    width: width * .80,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Container(
-                                          padding: EdgeInsets.only(
-                                              top: 4, bottom: 4),
-                                          child: Text(
-                                            curr.addType,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
+                            return GestureDetector(
+                              onTap: () {
+                                AddressState.selectedAddress = curr;
+                                print("\n\n: " +
+                                    AddressState.selectedAddress.completeAdd);
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => HomeScreen()),
+                                    (route) => false);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(bottom: 10),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                        margin: EdgeInsets.only(right: 5),
+                                        child: myIcon(curr.addType)),
+                                    Container(
+                                      width: width * .80,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                                top: 4, bottom: 4),
+                                            child: Text(
+                                              curr.addType,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          curr.completeAdd,
-                                          softWrap: true,
-                                          maxLines: 3,
-                                          overflow: TextOverflow.clip,
-                                          textAlign: TextAlign.left,
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
+                                          Text(
+                                            curr.completeAdd,
+                                            softWrap: true,
+                                            maxLines: 3,
+                                            overflow: TextOverflow.clip,
+                                            textAlign: TextAlign.left,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             );
                           } else {

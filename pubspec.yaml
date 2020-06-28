@@ -32,6 +32,7 @@ dependencies:
   http: ^0.12.1
   shimmer: ^1.1.1
   google_fonts: ^0.3.5
+  simple_tooltip: ^0.1.10
   flutter_user_auth:
     git:
       url: https://github.com/meetketanmehta/flutter_user_auth.git

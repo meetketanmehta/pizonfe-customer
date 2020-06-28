@@ -23,7 +23,7 @@ class _MapScreenState extends State<MapScreen> {
 
   Future<Position> _updateLocation() async {
     return Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 
   void _goToCurrentLocation() async {

@@ -3,15 +3,14 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:pizon_customer/models/Address.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:pizon_customer/models/Pricing.dart';
 import 'package:pizon_customer/models/Product.dart';
-import 'package:pizon_customer/screens/ProductDetail.dart';
 import 'package:pizon_customer/res/values/EndPoints.dart';
+import 'package:pizon_customer/screens/ProductDetail.dart';
 import 'package:pizon_customer/src/widgets/BottomNavigationBarWidget.dart';
 import 'package:pizon_customer/src/widgets/ProductCard.dart';
 import 'package:pizon_customer/src/widgets/SearchWidget.dart';
-import 'package:pizon_customer/states/AddressState.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProductList extends StatefulWidget {
@@ -45,11 +44,6 @@ class _ProductListState extends State<ProductList> {
     super.dispose();
   }
 
-  void _navigate(BuildContext context, Hero hero, Product item) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ProductDetail(hero, item)));
-  }
-
   Future<void> fetchData(int index) async {
     // Address address = await AddressState.getCurrentAddress();
 
@@ -70,19 +64,14 @@ class _ProductListState extends State<ProductList> {
     if (responseData.statusCode == 200) {
       setState(() {
         for (Map productItem in responseBody) {
-          // print(productItem);
-          // productItem.pricing[0].p
-          // productItem.map((key, value) =>
-          //     value.pricing[0]['price'] = value.pricing[0]['price'].toDouble());
           tList.add(Product.fromJson(productItem));
-//          print("\n\n\n" + productsList.last.title);
         }
+
         tList.forEach((element) {
           element.pricing.forEach((element) {
-            element['price'] = element['price'].toDouble();
+            element.price = element.price.toDouble();
           });
         });
-        // loading = false;
         loading = false;
         productsList.addAll(tList);
         page++;
@@ -142,26 +131,8 @@ class _ProductListState extends State<ProductList> {
                                     return _buildProgressIndicator();
                                   } else {
                                     if (productsList.length > 0) {
-                                      return GestureDetector(
-                                          onTap: () => {
-                                                this._navigate(
-                                                    context,
-                                                    Hero(
-                                                        tag: productsList[id],
-                                                        child: SizedBox(
-                                                          width:MediaQuery.of(context).size.width * 0.7,
-                                                          child: Image.network(
-                                                            productsList[id]
-                                                                .imageUri,
-                                                          ),
-                                                        )),
-                                                    productsList[id]),
-                                                print(productsList[id].pricing)
-                                              },
-                                          child: Hero(
-                                              tag: productsList[id],
-                                              child: ProductCard(
-                                                  product: productsList[id])));
+
+                                      return ProductCard(product: productsList[id],);
                                     } else
                                       return _shimmerEffect(5);
                                   }
@@ -172,6 +143,8 @@ class _ProductListState extends State<ProductList> {
                       ])))));
     }
   }
+
+
 
   Widget _buildProgressIndicator() {
     return new Padding(

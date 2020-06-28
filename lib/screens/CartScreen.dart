@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../res/values/Strings.dart';
-import 'package:pizon_customer/src/widgets/CartProductCard.dart';
-import 'package:pizon_customer/models/CartProduct.dart';
-import 'package:pizon_customer/models/Product.dart';
-import 'package:pizon_customer/models/Pricing.dart';
+import 'package:flutter/rendering.dart';
 import 'package:pizon_customer/models/Cart.dart';
-import 'package:pizon_customer/models/Address.dart';
+import 'package:pizon_customer/models/CartProduct.dart';
+import 'package:pizon_customer/screens/UpdateLocationScreen.dart';
+import 'package:pizon_customer/src/widgets/CartProductCard.dart';
+import 'package:pizon_customer/states/AddressState.dart';
+
+import '../res/values/Strings.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _CartScreen extends State<CartScreen> {
   var items = Map<String, Map<CartProduct, int>>();
 
   _CartScreen() {
-  //  _initializeCart();
+    //  _initializeCart();
     setValues();
   }
 
@@ -82,6 +83,9 @@ class _CartScreen extends State<CartScreen> {
       }
       items[cartProduct.pricing.storeName][cartProduct] = quantity;
     });
+    if (AddressState.selectedAddress != null) {
+      CartManager.setAddress(AddressState.selectedAddress);
+    } else {}
   }
 
   void increaseQuantity(CartProduct cartProduct) {
@@ -139,8 +143,8 @@ class _CartScreen extends State<CartScreen> {
         margin: EdgeInsets.only(bottom: 10),
         padding: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          // color: Colors.white,
-        ),
+            // color: Colors.white,
+            ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -181,8 +185,8 @@ class _CartScreen extends State<CartScreen> {
       margin: EdgeInsets.only(bottom: 10),
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        // color: Colors.white,
-      ),
+          // color: Colors.white,
+          ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -215,20 +219,36 @@ class _CartScreen extends State<CartScreen> {
                   padding: EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
                         "Delivery Address",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      // Text(
-                      //   CartManager.address.addType != null || CartManager.address != null
-                      //       ? CartManager.address.addType
-                      //       // : CartManager.address.completeAdd,
-                      //       :"Error",
-                      //   overflow: TextOverflow.ellipsis,
-                      //   softWrap: true,
-                      // ),
+                      CartManager.address != null
+                          ? Text(
+                              CartManager.address.addType != null
+                                  ? CartManager.address.addType
+                                  : CartManager.address.completeAdd,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: true,
+                            )
+                          : Container(
+                              padding: EdgeInsets.only(bottom: 2),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (_) => UpdateLocationScreen()));
+                                },
+                                child: Text(
+                                  "Select Address",
+                                  style: TextStyle(
+                                      color: Color(0xfff7892b),
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
                     ],
                   ),
                 ),
@@ -262,7 +282,10 @@ class _CartScreen extends State<CartScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(Icons.shopping_cart, size: 60,),
+          Icon(
+            Icons.shopping_cart,
+            size: 60,
+          ),
           SizedBox(height: 20),
           Text("Your cart is empty"),
         ],

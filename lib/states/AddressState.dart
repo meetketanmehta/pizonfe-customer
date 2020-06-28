@@ -2,7 +2,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:pizon_customer/models/Address.dart';
 
 class AddressState {
-  static Address currentAddress = new Address();
+  static Address currentAddress;
+  static Address selectedAddress;
   static bool loading = true;
 
   static Future<Address> getCurrentAddress() async {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart' as http;
 import 'package:pizon_customer/models/Address.dart';
 import 'package:pizon_customer/screens/UpdateLocationScreen.dart';
 import 'package:pizon_customer/states/AddressState.dart';
@@ -15,27 +14,39 @@ class _AddressWidgetState extends State<AddressWidget> {
   bool isLoading = true;
 
   void _getUsersCurrentLocation() async {
+
+    //TODO check if location is off
+
     var position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
     List<Placemark> placemark = await Geolocator()
         .placemarkFromCoordinates(position.latitude, position.longitude);
 
     // TODO: Redirect to change address page if no service area
     setState(() {
       address = Address.fromPlacemark(placemark[0]);
+      AddressState.currentAddress = address;
       isLoading = false;
     });
+  }
+
+  _AddressWidgetState() {
+    _getUsersCurrentLocation();
   }
 
   @override
   void initState() {
     super.initState();
-    _getUsersCurrentLocation();
+    if (AddressState.currentAddress != null) {
+      print("\n\n\n" + AddressState.currentAddress.toString());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    if(AddressState.selectedAddress!=null)isLoading=false;
+    return GestureDetector(
         onTap: () {
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (_) => UpdateLocationScreen()));
@@ -60,7 +71,9 @@ class _AddressWidgetState extends State<AddressWidget> {
                       ),
                       isLoading == false
                           ? Text(
-                              address.completeAdd,
+                              AddressState.selectedAddress != null
+                                  ? AddressState.selectedAddress.addType
+                                  : address.addName + "..",
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             )
@@ -73,6 +86,7 @@ class _AddressWidgetState extends State<AddressWidget> {
                   ),
                 ),
               ),
+              Icon(Icons.keyboard_arrow_down)
             ],
           ),
         ));
