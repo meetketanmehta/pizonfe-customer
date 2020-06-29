@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pizon_customer/screens/AccountScreen.dart';
 import 'package:pizon_customer/screens/CartScreen.dart';
+import 'package:pizon_customer/screens/testScreen.dart';
+import 'package:pizon_customer/screens/testScreen2.dart';
 import 'package:pizon_customer/screens/HomeScreen.dart';
 
 class BottomNavigationBarWidget extends StatelessWidget {
@@ -19,6 +21,10 @@ class BottomNavigationBarWidget extends StatelessWidget {
       break;
       case 1: {
         Navigator.push(context, MaterialPageRoute(builder: (context) => CartScreen()));
+      }
+      break;
+      case 2: {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TrackingPage()));
       }
       break;
       case 3: {

@@ -1,314 +1,340 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:pizon_customer/bloc/utils.dart';
+import 'package:pizon_customer/bloc/data.dart';
+import 'package:flutter/services.dart';
+import 'dart:math' as math;
 
+void main() => runApp(MaterialApp(
+      home: TestScreen(),
+      debugShowCheckedModeBanner: false,
+    ));
 
-// class _ProductDetail extends StatelessWidget {
-//   final Hero _hero;
-//   ProductDetail(this._hero);
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: SafeArea(child: Container(
-//         color: Colors.black.withOpacity(0.9),
-//         child: Column(
-//           children: <Widget>[
-//             Stack(
-//               children: <Widget>[
-//                 Image.asset(
-//                   "images/m2.jpg",
-//                   height: 350,
-//                   fit: BoxFit.cover,
-//                 ),
+class TestScreen extends StatefulWidget {
+  @override
+  _TestScreenState createState() => new _TestScreenState();
+}
 
-//                 Align(
-//                   alignment: Alignment.topCenter,
-//                   child: Container(
-//                       height: 100,
-//                       decoration: BoxDecoration(
-//                         // Box decoration takes a gradient
-//                         gradient: LinearGradient(
-//                           // Where the linear gradient begins and ends
-//                           begin: Alignment.topCenter,
-//                           end: Alignment.bottomCenter,
-//                           // Add one stop for each color. Stops should increase from 0 to 1
-//                           colors: [
-//                             // Colors are easy thanks to Flutter's Colors class.
-//                             Colors.black.withOpacity(0.7),
-//                             Colors.black.withOpacity(0.5),
-//                             Colors.black.withOpacity(0.07),
-//                             Colors.black.withOpacity(0.05),
-//                             Colors.black.withOpacity(0.025),
-//                           ],
-//                         ),
-//                       ),
+class _TestScreenState extends State<TestScreen> {
+  Color active = Colors.red;
+  TextEditingController cardNumber = TextEditingController();
+  TextEditingController year = TextEditingController();
+  TextEditingController month = TextEditingController();
+  TextEditingController cvc = TextEditingController();
+  TextEditingController cardHolder = TextEditingController();
 
-//                       child: Padding(
-//                           padding: const EdgeInsets.only(top: 8.0),
-//                           child: Container()
-//                       )),
-//                 ),
+  ScrollController scrollController = ScrollController();
 
-//                 Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   children: <Widget>[
-//                    Padding(
-//                         padding: const EdgeInsets.all(4.0),
-//                         child: IconButton(icon: Icon(Icons.arrow_back_ios, color: Colors.white,), onPressed: (){
-//                           Navigator.pop(context);
-//                         })
-//                       ),
+  @override
+  void initState(){
+    super.initState();
+    scrollController.addListener((){
+      if(scrollController.position.userScrollDirection.index==1){
+        FocusScope.of(context).requestFocus(FocusNode());
+      }
+    });
+  }
 
+  String convertCardNumber(String src, String divider) {
+    String newStr = '';
+    int step = 4;
+    for (int i = 0; i < src.length; i += step) {
+      newStr += src.substring(i, math.min(i + step, src.length));
+      if (i + step < src.length) newStr += divider;
+    }
+    return newStr;
+  }
 
-//                     Row(
-//                       children: <Widget>[
-//                         Padding(
-//                           padding: const EdgeInsets.all(4),
-//                           child: Card(
-//                             elevation: 10,
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(20)
-//                             ),
-//                             child: Padding(
-//                               padding: const EdgeInsets.all(8.0),
-//                               child: Icon(Icons.shopping_cart),
-//                             ),
-//                           )
-//                         ),
+  String convertMonthYear(String month, String year) {
+    if (month.isNotEmpty)
+      return month + '/' + year;
+    else
+      return '';
+  }
 
-//                         Padding(
-//                             padding: const EdgeInsets.all(4),
-//                             child: Card(
-//                               elevation: 10,
-//                               shape: RoundedRectangleBorder(
-//                                   borderRadius: BorderRadius.circular(20)
-//                               ),
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Icon(Icons.favorite_border),
-//                               ),
-//                             )
-//                         ),
+  @override
+  Widget build(BuildContext context) {
+    Widget addThisCard = InkWell(
+//      onTap: () => Navigator.of(context)
+//          .push(MaterialPageRoute(builder: (_) => ViewProductPage())),
+      child: Container(
+        height: 80,
+        width: MediaQuery.of(context).size.width / 1.5,
+        decoration: BoxDecoration(
+            gradient: mainButton,
+            boxShadow: [
+              BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.16),
+                offset: Offset(0, 5),
+                blurRadius: 10.0,
+              )
+            ],
+            borderRadius: BorderRadius.circular(9.0)),
+        child: Center(
+          child: Text("Add This Card",
+              style: const TextStyle(
+                  color: const Color(0xfffefefe),
+                  fontWeight: FontWeight.w600,
+                  fontStyle: FontStyle.normal,
+                  fontSize: 20.0)),
+        ),
+      ),
+    );
 
-//                       ],
-//                     ),
-//                   ],
-//                 ),
-
-//                 Align(
-//                   alignment: Alignment.bottomCenter,
-//                   child: Container(
-//                       height: 350,
-//                       decoration: BoxDecoration(
-//                         // Box decoration takes a gradient
-//                         gradient: LinearGradient(
-//                           // Where the linear gradient begins and ends
-//                           begin: Alignment.bottomCenter,
-//                           end: Alignment.topCenter,
-//                           // Add one stop for each color. Stops should increase from 0 to 1
-//                           colors: [
-//                             // Colors are easy thanks to Flutter's Colors class.
-//                             Colors.black.withOpacity(0.8),
-//                             Colors.black.withOpacity(0.6),
-//                             Colors.black.withOpacity(0.6),
-//                             Colors.black.withOpacity(0.4),
-//                             Colors.black.withOpacity(0.07),
-//                             Colors.black.withOpacity(0.05),
-//                             Colors.black.withOpacity(0.025),
-//                           ],
-//                         ),
-//                       ),
-
-//                       child: Padding(
-//                           padding: const EdgeInsets.only(top: 8.0),
-//                           child: Container()
-//                       )),
-//                 ),
-//                 Positioned(
-//                     bottom: 0,
-//                     child: Container(
-//                       width: MediaQuery.of(context).size.width,
-//                       child: Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                         children: <Widget>[
-//                           Padding(
-//                             padding: const EdgeInsets.all(10.0),
-//                             child: Text('Product Blazer', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300,fontSize: 20),),
-//                           ),
-
-//                           Padding(
-//                             padding: const EdgeInsets.all(10.0),
-//                             child: Text('\$35.99', textAlign: TextAlign.end,style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold),),
-//                           ),
-//                         ],
-//                       ),
-//                     )),
-
-//               ],
-//             ),
-//             Expanded(
-//               child: Container(
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20),),
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: Colors.black,
-//                       offset: Offset(2, 5),
-//                       blurRadius: 10
-//                     )
-//                   ]
-//                 ),
-//                 child: Column(
-//                   children: <Widget>[Padding(
-//                     padding: const EdgeInsets.all(4.0),
-//                     child: Row(
-//                       children: <Widget>[
-//                         Padding(
-//                           padding: const EdgeInsets.all(4.0),
-//                           child: Text('Select Color: ', style: TextStyle(color: Colors.white),),
-//                         ),
-//                         Padding(
-//                           padding: const EdgeInsets.all(8.0),
-//                           child: Container(width: 24, height: 24, decoration: BoxDecoration(
-//                             color: Colors.black,
-//                             borderRadius: BorderRadius.circular(15)
-//                           ),
-//                           child: Padding(
-//                             padding: const EdgeInsets.all(2),
-//                             child: CircleAvatar(
-//                               backgroundColor: Colors.red,
-//                             ),
-//                           ),),
-//                         ),
-
-//                         Padding(
-//                           padding: const EdgeInsets.all(8.0),
-//                           child: Container(width: 24, height: 24, decoration: BoxDecoration(
-//                               color: Colors.black,
-//                               borderRadius: BorderRadius.circular(15)
-//                           ),
-//                             child: Padding(
-//                               padding: const EdgeInsets.all(2),
-//                               child: CircleAvatar(
-//                                 backgroundColor: Colors.green,
-//                               ),
-//                             ),),
-//                         ),
-
-//                         Padding(
-//                           padding: const EdgeInsets.all(8.0),
-//                           child: Container(width: 24, height: 24, decoration: BoxDecoration(
-//                               color: Colors.black,
-//                               borderRadius: BorderRadius.circular(15)
-//                           ),
-//                             child: Padding(
-//                               padding: const EdgeInsets.all(2),
-//                               child: CircleAvatar(
-//                                 backgroundColor: Colors.orange,
-//                               ),
-//                             ),),
-//                         ),
-
-
-
-//                       ],
-//                     ),
-//                   ),
-//                     Padding(
-//                       padding: const EdgeInsets.all(8.0),
-//                       child: Row(
-//                         children: <Widget>[
-//                           Padding(
-//                             padding: const EdgeInsets.all(4.0),
-//                             child: Text('Select Size: ', style: TextStyle(color: Colors.white)),
-//                           ),
-//                           Padding(
-//                             padding: const EdgeInsets.all(8.0),
-//                             child: Container(width: 24, height: 24, decoration: BoxDecoration(
-//                                 color: Colors.black.withOpacity(0.8),
-//                                 borderRadius: BorderRadius.circular(7)
-//                             ),
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(2),
-//                                 child: Text('S', textAlign: TextAlign.center,style: TextStyle(color: Colors.white, fontSize: 17),),
-//                               ),),
-//                           ),
-
-//                           Padding(
-//                             padding: const EdgeInsets.all(8.0),
-//                             child: Container(width: 24, height: 24, decoration: BoxDecoration(
-//                                 color: Colors.black.withOpacity(0.8),
-//                                 borderRadius: BorderRadius.circular(7)
-//                             ),
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(2),
-//                                 child: Text('M', textAlign: TextAlign.center,style: TextStyle(color: Colors.white, fontSize: 17),),
-//                               ),),
-//                           ),
-
-
-//                           Padding(
-//                             padding: const EdgeInsets.all(8.0),
-//                             child: Container(width: 24, height: 24, decoration: BoxDecoration(
-//                                 color: Colors.black.withOpacity(0.8),
-//                                 borderRadius: BorderRadius.circular(7)
-//                             ),
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(2),
-//                                 child: Text('L', textAlign: TextAlign.center,style: TextStyle(color: Colors.white, fontSize: 17),),
-//                               ),),
-//                           ),
-
-
-//                           Padding(
-//                             padding: const EdgeInsets.all(8.0),
-//                             child: Container( height: 24, decoration: BoxDecoration(
-//                                 color: Colors.black.withOpacity(0.8),
-//                                 borderRadius: BorderRadius.circular(7)
-//                             ),
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(2),
-//                                 child: Text('XL', textAlign: TextAlign.center,style: TextStyle(color: Colors.white, fontSize: 17),),
-//                               ),),
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-
-//                     Expanded(
-//                       child: Padding(
-//                         padding: const EdgeInsets.all(8.0),
-//                         child: Text('Description:\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s  Lorem Ipsum has been the industry standard dummy text ever since the 1500s ', style: TextStyle(color: Colors.white)),
-//                       ),
-//                     ),
-
-//                     Padding(
-//                       padding:
-//                       const EdgeInsets.all(9),
-//                       child: Material(
-//                           borderRadius: BorderRadius.circular(15.0),
-//                           color: Colors.white,
-//                           elevation: 0.0,
-//                           child: MaterialButton(
-//                             onPressed: () {},
-//                             minWidth: MediaQuery.of(context).size.width,
-//                             child: Text(
-//                               "Buy now",
-//                               textAlign: TextAlign.center,
-//                               style: TextStyle(
-//                                   color: Colors.black,
-//                                   fontWeight: FontWeight.bold,
-//                                   fontSize: 20.0),
-//                             ),
-//                           )),
-//                     ),
-
-//                   ],
-//                 ),
-//               ),
-//             )
-
-//           ],
-//         ),
-//       )),
-//     );
-//   }
-// }
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: LayoutBuilder(
+        builder: (_, constraints) => GestureDetector(
+          onPanDown: (val) {
+//            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          behavior: HitTestBehavior.opaque,
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
+              ),
+              child: Container(
+                margin: const EdgeInsets.only(top: kToolbarHeight),
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          'Payment',
+                          style: TextStyle(
+                            color: darkGrey,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        CloseButton()
+                      ],
+                    ),
+                    Container(
+                      height: 200,
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.all(32.0),
+                      decoration: BoxDecoration(
+                          color: active,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'CREDIT CARD',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          SizedBox(height: 16.0),
+                          Row(
+                            children: <Widget>[
+                              Container(
+                                height: 25,
+                                width: 40,
+                                color: Colors.white,
+                              ),
+                              Flexible(
+                                  child: Center(
+                                      child: Text(
+                                          convertCardNumber(
+                                              cardNumber.text, '-'),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18.0)))),
+                            ],
+                          ),
+                          Spacer(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(convertMonthYear(month.text, year.text),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)),
+                              Text(cvc.text,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold))
+                            ],
+                          ),
+                          Spacer(),
+                          Text(cardHolder.text,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0))
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Colors.red,
+                          Colors.blue,
+                          Colors.purple[700],
+                          Colors.green[700],
+                          Colors.lightBlueAccent
+                        ]
+                            .map((c) => InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      active = c;
+                                    });
+                                  },
+                                  child: Transform.scale(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: ColorOption(c),
+                                      ),
+                                      scale: active == c ? 1.2 : 1),
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(16.0),
+                      height: 250,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: shadow,
+                          borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10))),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(left: 16.0),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              color: Colors.grey[200],
+                            ),
+                            child: TextField(
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(16)
+                              ],
+                              controller: cardNumber,
+                              onChanged: (val) {
+                                setState(() {});
+                              },
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Card Number'),
+                            ),
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Flexible(
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 16.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    color: Colors.grey[200],
+                                  ),
+                                  child: TextField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(2)
+                                    ],
+                                    controller: month,
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Month'),
+                                    onChanged: (val) {
+                                      setState(() {});
+                                    },
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 8.0,
+                              ),
+                              Flexible(
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 16.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    color: Colors.grey[200],
+                                  ),
+                                  child: TextField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(2)
+                                    ],
+                                    controller: year,
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Year'),
+                                    onChanged: (val) {
+                                      setState(() {});
+                                    },
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 8.0,
+                              ),
+                              Flexible(
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 16.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    color: Colors.grey[200],
+                                  ),
+                                  child: TextField(
+                                    controller: cvc,
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'CVC'),
+                                    onChanged: (val) {
+                                      setState(() {});
+                                    },
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 16.0),
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                              color: Colors.grey[200],
+                            ),
+                            child: TextField(
+                              controller: cardHolder,
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Name on card'),
+                              onChanged: (val) {
+                                setState(() {});
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 24.0),
+                    Center(
+                        child: Padding(
+                      padding: EdgeInsets.only(bottom: 20),
+                      child: addThisCard,
+                    ))
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
