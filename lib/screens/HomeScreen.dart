@@ -4,6 +4,8 @@ import 'package:pizon_customer/src/components/Categories.dart';
 import 'package:pizon_customer/src/widgets/AddressWidget.dart';
 import 'package:pizon_customer/src/widgets/BottomNavigationBarWidget.dart';
 import 'package:pizon_customer/src/widgets/SearchWidget.dart';
+import 'package:pizon_customer/src/widgets/PromoSlider.dart';
+import 'package:pizon_customer/src/widgets/Popular.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -26,13 +28,15 @@ class HomeScreen extends StatelessWidget {
             body: Column(
               children: <Widget>[
                 SearchWidget(),
+                TopPromoSlider(),
+                PopularMenu(),
                 SizedBox(
                   height: 10,
                   child: Container(
                     color: Theme.of(context).primaryColor,
                   ),
                 ),
-                Categories(),
+                Expanded(child: Categories()),
               ],
             )),
       ),

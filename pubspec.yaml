@@ -33,6 +33,8 @@ dependencies:
   shimmer: ^1.1.1
   google_fonts: ^0.3.5
   simple_tooltip: ^0.1.10
+  font_awesome_flutter: ^8.8.1
+  carousel_pro: ^1.0.0
   intl: any
 
   flutter_user_auth:
