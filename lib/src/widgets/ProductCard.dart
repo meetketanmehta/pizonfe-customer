@@ -181,6 +181,7 @@ class _ProductCardState extends State<ProductCard> {
             children: <Widget>[
               Container(
                 height: (25 + 40 * (product.pricing.length).toInt()).toDouble(),
+                width: double.maxFinite,
                 child: ListView.builder(
                     itemCount: product.pricing.length,
                     itemBuilder: (BuildContext context, int id) {

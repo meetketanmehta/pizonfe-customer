@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_user_auth/flutter_user_auth.dart';
+import 'package:pizon_customer/screens/ChangePassword.dart';
 import 'package:pizon_customer/src/widgets/LogoWidget.dart';
+// import 'package:pizon_customer/screens/ChangePassword.dart';
 import 'package:pizon_customer/src/widgets/BottomNavigationBarWidget.dart';
 import 'package:pizon_customer/res/values/Strings.dart';
 import 'package:toast/toast.dart';
@@ -93,8 +95,8 @@ class _KnownUserAccountScreen extends StatelessWidget {
           _tile(
             title: "Change Password",
             icon: Icon(Icons.refresh),
-            onTap: () {},
-          ),
+            onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePasswordPage()));}),
+            
           _tile(
             title: "Logout",
             icon: Icon(Icons.exit_to_app),
