@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 // import 'package:pizon_customer/bloc/utils.dart';
 import 'package:pizon_customer/bloc/data.dart';
+import 'package:pizon_customer/src/widgets/BottomNavigationBarWidget.dart';
 
 class TrackingPage extends StatefulWidget {
   @override
@@ -28,7 +29,7 @@ class _TrackingPageState extends State<TrackingPage> {
     ),
   ];
 
-  String selectedProduct = 'Boat Headphones Bass boost 100v';
+  String selectedProduct = 'Cadbury Silk 50g';
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +57,9 @@ class _TrackingPageState extends State<TrackingPage> {
               leading: SizedBox(),
               actions: <Widget>[CloseButton()],
             ),
+            bottomNavigationBar: BottomNavigationBarWidget(
+        currentIndex: 0,
+      ),
             body: SafeArea(
               child: LayoutBuilder(
                 builder:(_,constraints)=> Column(
@@ -70,12 +74,12 @@ class _TrackingPageState extends State<TrackingPage> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton(
                           items: <String>[
-                            'Boat Headphones Bass boost 100v',
-                            'Boat Headphones Bass boost 200v',
-                            'Boat Headphones Bass boost 300v',
-                            'Boat Headphones Bass boost 400v',
-                            'Boat Headphones Bass boost 500v',
-                            'Boat Headphones Bass double boosting 600v'
+                            'Cadbury Silk 50g',
+                            'Cadbury Silk 100g',
+                            'Cadbury Silk 200g',
+                            'Cadbury Silk 300g',
+                            'Cadbury Silk 400g',
+                            'Cadbury Silk 500g',
                           ].map((val) {
                             return DropdownMenuItem<String>(
                               value: val,

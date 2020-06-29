@@ -1,6 +1,7 @@
 import 'package:pizon_customer/bloc/data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pizon_customer/src/widgets/BottomNavigationBarWidget.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   @override
@@ -52,6 +53,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           style: TextStyle(color: darkGrey),
         ),
         elevation: 0,
+      ),
+      bottomNavigationBar: BottomNavigationBarWidget(
+        currentIndex: 0,
       ),
       body: SafeArea(
           bottom: true,
