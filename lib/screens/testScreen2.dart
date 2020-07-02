@@ -35,21 +35,21 @@ class _TrackingPageState extends State<TrackingPage> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.grey[100],
+          // color: Theme.of(context).primaryColorLight,
           image: DecorationImage(
               image: AssetImage('assets/Group 444.png'), fit: BoxFit.contain)),
       child: Container(
-        color:Colors.white54,
+        // color:Colors.black54,
         child: Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.transparent,
+              // backgroundColor: Colors.transparent,
               elevation: 0.0,
               brightness: Brightness.light,
               iconTheme: IconThemeData(color: Colors.grey),
               title: Text(
                 'Shipped',
                 style: TextStyle(
-                  color: darkGrey,
+                  // color: darkGrey,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
@@ -69,7 +69,7 @@ class _TrackingPageState extends State<TrackingPage> {
                       margin: const EdgeInsets.symmetric(horizontal: 16.0),
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          // color: Theme.of(context).primaryColorLight,
                           borderRadius: BorderRadius.all(Radius.circular(5))),
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton(
@@ -84,10 +84,10 @@ class _TrackingPageState extends State<TrackingPage> {
                             return DropdownMenuItem<String>(
                               value: val,
                               child: Container(
-                                  color: Colors.white,
+                                  // color: Theme.of(context).primaryColorDark,
                                   child: Align(
                                       alignment: Alignment.centerLeft,
-                                      child: Text(val,maxLines: 2,semanticsLabel: '...',overflow: TextOverflow.ellipsis,))),
+                                      child: Text(val,maxLines: 2,semanticsLabel: '...',overflow: TextOverflow.ellipsis, ))),
                             );
                           }).toList(),
                           onChanged: (val) {
@@ -108,7 +108,7 @@ class _TrackingPageState extends State<TrackingPage> {
                             data:
                                 ThemeData(primaryColor: yellow, fontFamily: 'Montserrat'),
                             child: Stepper(
-//                          physics: NeverScrollableScrollPhysics(),
+                         physics: NeverScrollableScrollPhysics(),
                               steps: [
                                 ...locations
                                     .map(
