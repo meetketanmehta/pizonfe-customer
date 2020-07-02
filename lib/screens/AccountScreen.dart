@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_user_auth/flutter_user_auth.dart';
 import 'package:pizon_customer/screens/ChangePassword.dart';
+import 'package:pizon_customer/screens/Profile.dart';
 import 'package:pizon_customer/src/widgets/LogoWidget.dart';
 // import 'package:pizon_customer/screens/ChangePassword.dart';
 import 'package:pizon_customer/src/widgets/BottomNavigationBarWidget.dart';
@@ -54,57 +55,57 @@ class _KnownUserAccountScreen extends StatelessWidget {
       Toast.show("Logged Out Successfully", context);
     }
 
-    void _myAddressesHandler() {}
-
-    return Scaffold(
-      // backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text("Account"),
-        elevation: 1,
-      ),
-      bottomNavigationBar: BottomNavigationBarWidget(
-        currentIndex: 3,
-      ),
-      body: ListView(
-        children: <Widget>[
-          _tile(
-            title: "My Orders",
-            icon: Icon(Icons.list),
-            onTap: () {},
-          ),
-          _tile(
-            title: "My Wallet",
-            icon: Icon(Icons.account_balance_wallet),
-            onTap: () {},
-          ),
-          _tile(
-            title: "My Payment Methods",
-            icon: Icon(Icons.payment),
-            onTap: () {},
-          ),
-          _tile(
-            title: "My Addresses",
-            icon: Icon(Icons.location_on),
-            onTap: _myAddressesHandler,
-          ),
-          _tile(
-            title: "Contact us",
-            icon: Icon(Icons.contact_mail),
-            onTap: _myAddressesHandler,
-          ),
-          _tile(
-            title: "Change Password",
-            icon: Icon(Icons.refresh),
-            onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePasswordPage()));}),
+    // void _myAddressesHandler() {}
+    return ProfilePage();
+    // return Scaffold(
+    //   // backgroundColor: Colors.white,
+    //   appBar: AppBar(
+    //     title: Text("Account"),
+    //     elevation: 1,
+    //   ),
+    //   bottomNavigationBar: BottomNavigationBarWidget(
+    //     currentIndex: 3,
+    //   ),
+    //   body: ListView(
+    //     children: <Widget>[
+    //       _tile(
+    //         title: "My Orders",
+    //         icon: Icon(Icons.list),
+    //         onTap: () {},
+    //       ),
+    //       _tile(
+    //         title: "My Wallet",
+    //         icon: Icon(Icons.account_balance_wallet),
+    //         onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));}
+    //       ),
+    //       _tile(
+    //         title: "My Payment Methods",
+    //         icon: Icon(Icons.payment),
+    //         onTap: () {},
+    //       ),
+    //       _tile(
+    //         title: "My Addresses",
+    //         icon: Icon(Icons.location_on),
+    //         onTap: _myAddressesHandler,
+    //       ),
+    //       _tile(
+    //         title: "Contact us",
+    //         icon: Icon(Icons.contact_mail),
+    //         onTap: _myAddressesHandler,
+    //       ),
+    //       _tile(
+    //         title: "Change Password",
+    //         icon: Icon(Icons.refresh),
+    //         onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePasswordPage()));}),
             
-          _tile(
-            title: "Logout",
-            icon: Icon(Icons.exit_to_app),
-            onTap: _logoutHandler,
-          ),
-        ],
-      ),
-    );
+    //       _tile(
+    //         title: "Logout",
+    //         icon: Icon(Icons.exit_to_app),
+    //         onTap: _logoutHandler,
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }
 

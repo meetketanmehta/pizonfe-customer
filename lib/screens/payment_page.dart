@@ -5,16 +5,16 @@ import 'package:flutter/services.dart';
 import 'dart:math' as math;
 
 void main() => runApp(MaterialApp(
-      home: TestScreen(),
+      home: PaymentPage(),
       debugShowCheckedModeBanner: false,
     ));
 
-class TestScreen extends StatefulWidget {
+class PaymentPage extends StatefulWidget {
   @override
-  _TestScreenState createState() => new _TestScreenState();
+  _PaymentPageState createState() => new _PaymentPageState();
 }
 
-class _TestScreenState extends State<TestScreen> {
+class _PaymentPageState extends State<PaymentPage> {
   Color active = Colors.red;
   TextEditingController cardNumber = TextEditingController();
   TextEditingController year = TextEditingController();

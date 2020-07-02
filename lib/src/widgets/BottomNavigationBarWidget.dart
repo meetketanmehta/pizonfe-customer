@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pizon_customer/screens/AccountScreen.dart';
 import 'package:pizon_customer/screens/CartScreen.dart';
-import 'package:pizon_customer/screens/testScreen.dart';
+import 'package:pizon_customer/screens/payment_page.dart';
 import 'package:pizon_customer/screens/testScreen2.dart';
 import 'package:pizon_customer/screens/HomeScreen.dart';
 
