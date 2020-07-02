@@ -1,3 +1,4 @@
+import 'package:pizon_customer/Extras/Chat.dart';
 import 'package:pizon_customer/Extras/Faq.dart';
 import 'package:pizon_customer/Extras/Settings.dart';
 import 'package:pizon_customer/bloc/data.dart';
@@ -63,12 +64,12 @@ class ProfilePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             IconButton(
-                              icon: Image.asset('assets/icons/wallet.png'),
-                              onPressed:()=> {}
-                              // Navigator.of(context).push(
-                              //     MaterialPageRoute(
-                              //         builder: (_) => WalletPage())),
-                            ),
+                                icon: Image.asset('assets/icons/wallet.png'),
+                                onPressed: () => {}
+                                // Navigator.of(context).push(
+                                //     MaterialPageRoute(
+                                //         builder: (_) => WalletPage())),
+                                ),
                             Text(
                               'Addresses',
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -80,9 +81,9 @@ class ProfilePage extends StatelessWidget {
                           children: <Widget>[
                             IconButton(
                               icon: Image.asset('assets/icons/truck.png'),
-                              onPressed: () => 
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (_) => TrackingPage())),
+                              onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (_) => TrackingPage())),
                             ),
                             Text(
                               'Orders',
@@ -95,8 +96,7 @@ class ProfilePage extends StatelessWidget {
                           children: <Widget>[
                             IconButton(
                               icon: Image.asset('assets/icons/card.png'),
-                              onPressed:()=> 
-                              Navigator.of(context).push(
+                              onPressed: () => Navigator.of(context).push(
                                   MaterialPageRoute(
                                       builder: (_) => PaymentPage())),
                             ),
@@ -110,7 +110,10 @@ class ProfilePage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             IconButton(
-                              icon: Image.asset('assets/icons/contact_us.png'), onPressed: () {},
+                              icon: Image.asset('assets/icons/contact_us.png'),
+                              onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (_) => HomePageDialogflow())),
                             ),
                             Text(
                               'Support',
@@ -125,29 +128,35 @@ class ProfilePage extends StatelessWidget {
                 ListTile(
                   title: Text('Settings'),
                   subtitle: Text('Privacy and logout'),
-                  leading: Image.asset('assets/icons/settings_icon.png', fit: BoxFit.scaleDown, width: 30, height: 30,),
+                  leading: Image.asset(
+                    'assets/icons/settings_icon.png',
+                    fit: BoxFit.scaleDown,
+                    width: 30,
+                    height: 30,
+                  ),
                   trailing: Icon(Icons.chevron_right, color: yellow),
-                  onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => SettingsPage())),
+                  onTap: () => Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => SettingsPage())),
                 ),
                 Divider(),
                 ListTile(
-                  title: Text('Help & Support'),
-                  subtitle: Text('Help center and legal support'),
-                  leading: Image.asset('assets/icons/support.png'),
-                  trailing: Icon(
-                    Icons.chevron_right,
-                    color: yellow,
-                  ),
-                ),
+                    title: Text('Help & Support'),
+                    subtitle: Text('Help center and legal support'),
+                    leading: Image.asset('assets/icons/support.png'),
+                    trailing: Icon(
+                      Icons.chevron_right,
+                      color: yellow,
+                    ),
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => HomePageDialogflow()))),
                 Divider(),
                 ListTile(
                   title: Text('FAQ'),
                   subtitle: Text('Questions and Answer'),
                   leading: Image.asset('assets/icons/faq.png'),
                   trailing: Icon(Icons.chevron_right, color: yellow),
-                  onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => FaqPage())),
+                  onTap: () => Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => FaqPage())),
                 ),
                 Divider(),
               ],
