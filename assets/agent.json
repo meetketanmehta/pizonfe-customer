@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "online-shopping-hhpece",
+  "private_key_id": "62af70046c56fc432850adf08d30255460960f5d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCsuuO2OsZH23eN\nHGbOF4RNmgBD1Ntr53OTlCjH6tXREbgEmU7FTmK72bXqFuxztgvH7MGGwhudOM4T\nVnjorCUw9KQQ8V0mZdN7viMm/x+RPAyljiipMMocqXRyfiSkUV4fnNv02kwLyNLV\ng0ybpmDKzlX808YV/wrehWXqtk4kTnrPXoUf3UbEp4HFGiHSQx2Ij9H5E5HXjpn9\nIPHZqlBxuKYdNj403MsXvuKIsajnRZPmHR4WG3PCFCIOgAuk7X2TfEo5rehpV7bS\nyitgDGjxZ52HzNVs5OynBeqAkvnkGZ8j3g8kdn5Ain6ic7yWjZ/dMuWH31lL2f9H\nmp+qzNEvAgMBAAECggEAGb30h8j0mersQzxzWc2JayNDXNiRJuCkid7vwPOPkAvq\n98x9P8xxzHsisFNgQ9JiqRXwtYuiH+lCVQFzHYHiPQyIkvnVnw5X2T458Oreon9n\nhxjLmINr65+ZeiKwhUiXFXEEGtaZtLvmJ+ncdenyzOa5S+enwslyrj0FNlibBq/o\nzSIiXl7wg+rt6IhXluoKtRPWBxKFh9bl1+tNPm+0n6BYQC6eHXT9qkoPPgQJGTbN\n2r+MGx6etYGNtUXzJ4rs5xGyKHTfVtSNQAXlXpu+5lPmYmvQJ42iQNfrbFxIpZ3e\ngm+B2ezkB7e2A2kLW82m1ers+TbjC+BFE/L+erCYEQKBgQDXiF1D+izFocUZ0sl3\nc/oSViytRmK05LrTYF1owW0IjZ1iITqp56Xl1biuSWV0sDIqXhUBME8Dln+IgjMH\nF8PmePQXHNTyxeqxHIsJAH2aa2zLO0G0PPhSVpvWlmsUDqTxOMWheYF1uqRE9pQT\nfZGJMRCMEjFHLiozoVUpFtUwlwKBgQDNKTR7twUQK/57dh9IBN0yU4eSz8U2hvwz\neGEplvgwFUCeeeBP9+VTGYJ7OVB5K0HhzD9lJKIB7Lhl5CsJmOBl9W2dtSg532YZ\nv37Dei9Vga+8P1P+UT5b640P5afA4Rsj6TUzQk33p1MjSMT77WwYrPqrVpkESG2W\npUy2W2BfKQKBgQDUI4Lw2ndg2nW+kgr8COn1TF5S+jlDJPKCBJJL/j4MMh7bLCuq\nebd+/Zn16YXzkUz/CHUSI3NR67qBKO2CqLCH0zsk2Jr8jTMPujFa3eHCsMN3UU69\nUVl06YwfbRPdvQA58RAMfCShNOBkhHKAsJIjf2hzBaD9F4IwKTZB6BhT5wKBgQCl\noSdy3W3kAXCA4fsdHHgrgg4Is15myBFhyETA29Xgk7fIeWJjjSGBti2GJ95VBFw6\n27cug6WbYi34bH1mURqQldR6Jt+j4Tw/ez7ut3zxTjK/Cm1X+uUaNo96jxCggdt0\nYXkGuffSAS74ZG5LaQEE5tm0a8Q7FfILVcYZzql+CQKBgGAGQ07kocinW+Qc2Oyv\n0uDk4T5s8zJyTuIVRLjK+dkFv+urpJA85FhdUXErxhY1Kc3j0IDxUukSs/UZ9lKd\nkpl47pI+cNXG2cX94LBGPFfp660mYsH+/Czp1z+lLv7hYoJcUguMVGOcRgCVaAde\nQzRs+r9EckJAHeV9BoAIJ7oR\n-----END PRIVATE KEY-----\n",
+  "client_email": "dialogflow-gftwxj@online-shopping-hhpece.iam.gserviceaccount.com",
+  "client_id": "106749936044189770464",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dialogflow-gftwxj%40online-shopping-hhpece.iam.gserviceaccount.com"
+}
